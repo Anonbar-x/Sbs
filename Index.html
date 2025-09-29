@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বাংলা টু রাশিয়ান ট্রান্সলেটর</title>
+    <style>
+        /* Style for professional look */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>বাংলা টু রাশিয়ান ট্রান্সলেটর</h1>
+        <textarea id="inputText" placeholder="বাংলায় লিখুন..."></textarea><br>
+        <button onclick="translate()">অনুবাদ করুন</button>
+
+        <div class="output">
+            <h3>অনুবাদ:</h3>
+            <p><strong>বাংলা:</strong> <span id="banglaOutput"></span></p>
+            <p><strong>রাশিয়ান:</strong> <span id="russianOutput"></span></p>
+            <p><strong>ইংরেজি:</strong> <span id="englishOutput"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function translate() {
+            var inputText = document.getElementById("inputText").value;
+
+            // Your Google Translate API Key (replace with actual key)
+            var apiKey = 'YOUR_GOOGLE_API_KEY';
+            var url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
+
+            // Translate to Russian
+            $.post(url, {
+                q: inputText,
+                target: 'ru',
+                source: 'bn'
+            }, function(response) {
+                document.getElementById("russianOutput").innerText = response.data.translations[0].translatedText;
+            });
+
+            // Translate to English
+            $.post(url, {
+                q: inputText,
+                target: 'en',
+                source: 'bn'
+            }, function(response) {
+                document.getElementById("englishOutput").innerText = response.data.translations[0].translatedText;
+            });
+
+            // Output the original Bengali text
+            document.getElementById("banglaOutput").innerText = inputText;
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>
