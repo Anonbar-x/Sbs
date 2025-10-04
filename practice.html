@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>প্র্যাকটিস – বাংলা থেকে রাশিয়ান</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>বাংলা থেকে রাশিয়ান</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">হোম</a></li>
+        <li><a href="lessons.html">লেসনস</a></li>
+        <li><a href="practice.html">প্র্যাকটিস</a></li>
+        <li><a href="about.html">সম্বন্ধে</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section">
+    <h2 style="text-align:center;">কুইজ ও প্র্যাকটিস</h2>
+    <p style="text-align:center; max-width:600px; margin:0 auto;">নীচের কুইজের মাধ্যমে আপনার শেখা শব্দগুচ্ছ চর্চা করুন। সঠিক বাংলা অর্থ নির্বাচন করুন।</p>
+    <div class="quiz-container" style="margin-top:30px;">
+      <h3 id="question">প্রশ্ন লোড হচ্ছে...</h3>
+      <div id="options" class="quiz-options"></div>
+      <div id="result" class="result"></div>
+      <button id="next-btn" class="button" style="display:none;">পরবর্তী প্রশ্ন</button>
+      <div id="score" class="scoreboard"></div>
+    </div>
+  </section>
+
+  <!-- Advertisement placeholder -->
+  <section class="section">
+    <div class="ad-placeholder">ADVERTISEMENT</div>
+  </section>
+
+  <footer>
+    <p>&copy; ২০২৫ বাংলা থেকে রাশিয়ান। সব অধিকার সংরক্ষিত।</p>
+  </footer>
+
+  <!-- Quiz logic script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Dictionary of Russian words/phrases and their Bengali meanings
+      const dictionary = [
+        { ru: 'Привет', bn: 'হ্যালো' },
+        { ru: 'Здравствуйте', bn: 'স্বাগতম/নমস্কার' },
+        { ru: 'Спасибо', bn: 'ধন্যবাদ' },
+        { ru: 'Пожалуйста', bn: 'দয়া করে / আপনাকে স্বাগতম' },
+        { ru: 'До свидания', bn: 'বিদায়' },
+        { ru: 'Как дела?', bn: 'কেমন আছেন?' },
+        { ru: 'Да', bn: 'হ্যাঁ' },
+        { ru: 'Нет', bn: 'না' },
+        { ru: 'Извините', bn: 'মাফ করবেন' },
+        { ru: 'Я не понимаю', bn: 'আমি বুঝতে পারছি না' },
+        { ru: 'Сколько это стоит?', bn: 'এর দাম কত?' }
+      ];
+
+      let score = 0;
+      let questionCount = 0;
+      let currentEntry = null;
+
+      const questionEl = document.getElementById('question');
+      const optionsEl  = document.getElementById('options');
+      const resultEl   = document.getElementById('result');
+      const scoreEl    = document.getElementById('score');
+      const nextBtn    = document.getElementById('next-btn');
+
+      // Utility to shuffle an array
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      // Generate options for the current question
+      function generateOptions(correctBn) {
+        const options = [correctBn];
+        while (options.length < 4) {
+          const randomIndex = Math.floor(Math.random() * dictionary.length);
+          const optionBn = dictionary[randomIndex].bn;
+          if (!options.includes(optionBn)) {
+            options.push(optionBn);
+          }
+        }
+        return shuffle(options);
+      }
+
+      // Load a new question
+      function loadQuestion() {
+        questionCount++;
+        // Pick a random dictionary entry
+        currentEntry = dictionary[Math.floor(Math.random() * dictionary.length)];
+        questionEl.textContent = `"${currentEntry.ru}" এর বাংলা অর্থ কী?`;
+        // Generate options and render buttons
+        const opts = generateOptions(currentEntry.bn);
+        optionsEl.innerHTML = '';
+        opts.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.textContent = opt;
+          btn.addEventListener('click', () => selectOption(opt));
+          optionsEl.appendChild(btn);
+        });
+        resultEl.textContent = '';
+        scoreEl.textContent = `স্কোর: ${score}/${questionCount - 1}`;
+      }
+
+      // Handle option selection
+      function selectOption(selected) {
+        if (!currentEntry) return;
+        if (selected === currentEntry.bn) {
+          score++;
+          resultEl.textContent = 'সঠিক!';
+          resultEl.style.color = '#2e7d32';
+        } else {
+          resultEl.textContent = `ভুল! সঠিক উত্তর: ${currentEntry.bn}`;
+          resultEl.style.color = '#c8102e';
+        }
+        // Disable option buttons to prevent multiple answers
+        Array.from(optionsEl.children).forEach(btn => {
+          btn.disabled = true;
+        });
+        nextBtn.style.display = 'inline-block';
+        scoreEl.textContent = `স্কোর: ${score}/${questionCount}`;
+      }
+
+      // Expose selectOption so it can be called from dynamically created buttons (not strictly necessary here)
+      window.selectOption = selectOption;
+
+      // Load next question on button click
+      nextBtn.addEventListener('click', () => {
+        loadQuestion();
+        nextBtn.style.display = 'none';
+      });
+
+      // Initialise first question
+      loadQuestion();
+    });
+  </script>
+</body>
+</html>

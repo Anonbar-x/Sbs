@@ -1,0 +1,263 @@
+/*
+ * Style sheet for the Bengali‑to‑Russian learning web app.
+ *
+ * This CSS defines a modern, responsive layout with a sticky header,
+ * hero section, tables for lessons, quiz styling and advertising
+ * placeholders. Colors and fonts are defined as CSS variables for
+ * easy customisation. Use of a sans‑serif Bengali font ensures the
+ * Bengali script renders cleanly across devices. Media queries
+ * collapse navigation on small screens, making the interface
+ * comfortable on mobiles.  Comments throughout explain the purpose
+ * of major blocks.
+ */
+
+:root {
+  /* Colour palette for the site */
+  --primary-color: #243665;      /* dark blue for header/footer */
+  --accent-color: #c8102e;       /* red accent reminiscent of the Russian flag */
+  --background-color: #f7f7f7;   /* light background */
+  --text-color: #333333;         /* standard body text */
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans Bengali', 'Noto Sans', sans-serif;
+  background: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* Sticky header with site title and navigation */
+header {
+  background: var(--primary-color);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--accent-color);
+}
+
+/* Hero section with gradient background */
+.hero {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #e0f2f1, #e8eaf6);
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.hero .cta {
+  background: var(--accent-color);
+  color: #ffffff;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.hero .cta:hover {
+  background: #a20d22;
+}
+
+/* Generic section styling */
+.section {
+  padding: 40px 20px;
+}
+
+/* Card grid for features */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.feature-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.feature-card h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Advertisement placeholder styling */
+.ad-placeholder {
+  border: 2px dashed #cccccc;
+  padding: 20px;
+  text-align: center;
+  margin: 20px 0;
+  min-height: 100px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #888888;
+  font-style: italic;
+}
+
+/* Table styling used in lessons */
+.lesson-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.lesson-table th, .lesson-table td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.lesson-table th {
+  background: var(--primary-color);
+  color: #ffffff;
+}
+
+.lesson-table td {
+  background: #ffffff;
+}
+
+/* Simple button class used on practise page */
+.button {
+  display: inline-block;
+  padding: 8px 16px;
+  background: var(--primary-color);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background: #1a2850;
+}
+
+/* Quiz container styling for practise page */
+.quiz-container {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quiz-container h3 {
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.quiz-options button {
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  background: #ffffff;
+  transition: background 0.3s, color 0.3s;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.quiz-options button:hover {
+  background: var(--primary-color);
+  color: #ffffff;
+}
+
+.result {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.scoreboard {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Footer styling */
+footer {
+  background: var(--primary-color);
+  color: #ffffff;
+  text-align: center;
+  padding: 20px 10px;
+  margin-top: 40px;
+  font-size: 0.9rem;
+}
+
+/* Responsive navigation: collapse to column on small screens */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  header h1 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  .hero h2 {
+    font-size: 2rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+}

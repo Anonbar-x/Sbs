@@ -1,333 +1,61 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>রুশ বাংলা পাঠশালা</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap');
-
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --background-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --text-color: #34495e;
-            --card-bg-color: #ffffff;
-            --success-color: #27ae60;
-            --light-gray: #95a5a6;
-            --font-family: 'Noto Sans Bengali', sans-serif;
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0; padding: 0;
-        }
-
-        html, body {
-            height: 100%; width: 100%;
-            overflow: hidden;
-            font-family: var(--font-family);
-            background: var(--background-gradient);
-        }
-
-        .app-container {
-            display: flex; flex-direction: column;
-            height: 100vh; width: 100vw;
-        }
-
-        .app-header {
-            flex-shrink: 0; background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 0 20px; display: flex; align-items: center; justify-content: space-between;
-            height: 65px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 10;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .logo { font-size: 1.4rem; font-weight: 700; color: var(--primary-color); }
-        .menu-toggle { font-size: 1.8rem; cursor: pointer; color: var(--primary-color); }
-
-        .nav-links {
-            list-style: none; position: fixed; top: 0; left: -280px;
-            width: 280px; height: 100%; background: var(--primary-color);
-            padding-top: 60px; transition: left 0.3s ease-in-out; z-index: 100;
-        }
-        .nav-links.active { left: 0; }
-        .nav-links li a {
-            display: block; padding: 18px 25px; color: white;
-            text-decoration: none; font-size: 1.1rem; border-bottom: 1px solid #34495e;
-        }
-        .nav-links li a:hover { background-color: var(--secondary-color); }
-
-        .app-main {
-            flex-grow: 1; padding: 20px 10px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: relative;
-        }
-        
-        .page {
-            width: 100%; height: 100%; display: none; flex-direction: column;
-            align-items: center; justify-content: center; text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-        .page.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        #home-page h1 { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 1rem; }
-        #home-page p { max-width: 500px; margin: 0 auto 2rem auto; color: var(--text-color); font-size: 1.1rem; }
-        
-        /* --- Card Stack for Swiping --- */
-        .card-stack {
-            position: relative; width: 100%; max-width: 400px;
-            height: 480px; margin-bottom: 20px;
-        }
-        .conversation-card {
-            background: var(--card-bg-color); border-radius: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            padding: 25px; text-align: left;
-            position: absolute; width: 100%; height: 100%;
-            cursor: grab; transition: transform 0.3s ease, opacity 0.3s ease;
-            touch-action: none; /* Prevents browser default actions */
-        }
-        .conversation-card:nth-child(2) { transform: scale(0.95) translateY(20px); opacity: 0.8; }
-        .conversation-card:nth-child(3) { transform: scale(0.9) translateY(40px); opacity: 0.6; }
-
-        .lang-item { margin-bottom: 20px; }
-        .lang-item:last-child { margin-bottom: 0; }
-        .lang-item .label {
-            font-size: 0.8rem; font-weight: 700; color: var(--light-gray);
-            text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .lang-item .text { font-size: 1.3rem; font-weight: 500; color: var(--text-color); }
-        .lang-ru-cy { font-family: 'Times New Roman', Times, serif; color: var(--secondary-color); font-size: 1.5rem; }
-
-        .btn {
-            border: none; border-radius: 50px; padding: 18px 40px;
-            color: white; font-size: 1.2rem; font-weight: 700;
-            cursor: pointer; transition: all 0.3s ease;
-            text-decoration: none; display: inline-block;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
-        .btn-primary { background-color: var(--secondary-color); }
-        .btn-success { background: linear-gradient(45deg, #27ae60, #2ecc71); }
-        
-        /* Saved Page */
-        #saved-page { justify-content: flex-start; }
-        #saved-items-container {
-             width: 100%; max-width: 500px; height: 100%;
-             overflow-y: auto; padding: 15px;
-        }
-        #saved-items-container .conversation-card {
-            position: relative; height: auto; margin-bottom: 15px; cursor: default;
-        }
-        .remove-btn {
-            position: absolute; top: 15px; right: 15px; background: #e74c3c;
-            color: white; border: none; width: 30px; height: 30px;
-            border-radius: 50%; cursor: pointer; font-weight: 700;
-        }
-        .app-footer {
-            flex-shrink: 0; text-align: center; padding: 15px;
-            color: var(--text-color); font-size: 0.9rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>বাংলা থেকে রাশিয়ান ভাষা শিখুন</title>
+  <!-- Google Fonts for Bengali and Latin/Cyrillic scripts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Header with site title and navigation -->
+  <header>
+    <h1>বাংলা থেকে রাশিয়ান</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">হোম</a></li>
+        <li><a href="lessons.html">লেসনস</a></li>
+        <li><a href="practice.html">প্র্যাকটিস</a></li>
+        <li><a href="about.html">সম্বন্ধে</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <div class="app-container">
-        
-        <header class="app-header">
-            <div class="logo">রুশ বাংলা পাঠশালা</div>
-            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-        </header>
+  <!-- Hero section introducing the site -->
+  <section class="hero">
+    <h2>রাশিয়ান ভাষা শিখুন অত্যন্ত সহজে!</h2>
+    <p>আমাদের প্ল্যাটফর্মে আপনি পুরোপুরি বাংলা ভাষায় রাশিয়ান ভাষা শিখতে পারবেন – বেসিক থেকে এডভান্স পর্যন্ত। পাঠগুলি ধাপে ধাপে সাজানো হয়েছে, যাতে যে কেউ শিখতে পারে।</p>
+    <a class="cta" href="lessons.html">শুরু করুন</a>
+  </section>
 
-        <ul class="nav-links" id="nav-links">
-            <li><a href="#" data-page="home-page">হোম</a></li>
-            <li><a href="#" data-page="saved-page">শিখেছি তালিকা</a></li>
-            <li><a href="#" data-page="about-page">আমাদের সম্পর্কে</a></li>
-        </ul>
-
-        <main class="app-main">
-            <div id="home-page" class="page active">
-                <div>
-                    <h1>রাশিয়ান ভাষা শিখুন নতুন উপায়ে</h1>
-                    <p>কার্ড ডানে বা বামে সোয়াইপ করে অনুশীলন করুন। শেখা হয়ে গেলে "শিখেছি" বাটনে ক্লিক করে সেভ করুন।</p>
-                    <a href="#" class="btn btn-primary" id="start-learning">অনুশীলন শুরু করুন 🚀</a>
-                </div>
-            </div>
-
-            <div id="learning-page" class="page">
-                <div class="card-stack" id="card-stack">
-                    </div>
-                <a href="#" class="btn btn-success" id="learned-btn">শিখেছি 👍</a>
-            </div>
-            
-            <div id="saved-page" class="page">
-                <div id="saved-items-container"></div>
-            </div>
-
-            <div id="about-page" class="page">
-                 <div>
-                    <h1 style="font-size: 1.8rem;">আমাদের সম্পর্কে</h1>
-                    <p>আমাদের লক্ষ্য, ভাষার ভিন্নতার কারণে রাশিয়াতে কোনো বাংলাদেশি যেন সমস্যায় না পড়েন।</p>
-                </div>
-            </div>
-        </main>
-        
+  <!-- Features section highlighting key benefits -->
+  <section class="section">
+    <h2 style="text-align:center;">আমাদের বৈশিষ্ট্য</h2>
+    <div class="features">
+      <div class="feature-card">
+        <h3>বাংলা নির্দেশনা</h3>
+        <p>সব লেসন ও ব্যাখ্যা বাংলা ভাষায়, যাতে আপনি সহজে বুঝতে পারেন।</p>
+      </div>
+      <div class="feature-card">
+        <h3>ইন্টারেক্টিভ প্র্যাকটিস</h3>
+        <p>কুইজ এবং প্র্যাকটিস সেশনের মাধ্যমে নিজেকে পরীক্ষা করতে পারবেন।</p>
+      </div>
+      <div class="feature-card">
+        <h3>অ্যাড সাপোর্ট</h3>
+        <p>ওয়েবসাইটে বিজ্ঞাপন থেকে আয় করার সুযোগ রয়েছে। আপনার জন্য এড প্লেসহোল্ডার প্রস্তুত করা হয়েছে।</p>
+      </div>
     </div>
+  </section>
 
-<script>
-const conversations = [
-    { bn: "হ্যালো", ru_cy: "Здравствуйте", ru_bn: "জ্দ্রাস্তভুইতে", en: "Hello" },
-    { bn: "আপনার নাম কি?", ru_cy: "Как вас зовут?", ru_bn: "কাক ভাস যাভুত?", en: "What is your name?" },
-    { bn: "আমার নাম...", ru_cy: "Меня зовут...", ru_bn: "মিনিয়া যাভুত...", en: "My name is..." },
-    { bn: "আপনি কেমন আছেন?", ru_cy: "Как дела?", ru_bn: "কাক দিলা?", en: "How are you?" },
-    { bn: "আমি ভালো আছি, ধন্যবাদ।", ru_cy: "Хорошо, спасибо.", ru_bn: "খারাশো, স্পাসিবা।", en: "I'm fine, thank you." },
-    { bn: "আমি বাংলাদেশ থেকে এসেছি।", ru_cy: "Я из Бангладеша.", ru_bn: "ইয়া ইজ বাংলাদেশা।", en: "I am from Bangladesh." },
-    { bn: "ধন্যবাদ।", ru_cy: "Спасибо.", ru_bn: "স্পাসিবা।", en: "Thank you." },
-    { bn: "দয়া করে।", ru_cy: "Пожалуйста.", ru_bn: "পাঝালুস্তা।", en: "Please / You're welcome." },
-    { bn: "দুঃখিত।", ru_cy: "Извините.", ru_bn: "ইজভিনিতে।", en: "Sorry / Excuse me." },
-    { bn: "এটার দাম কত?", ru_cy: "Сколько это стоит?", ru_bn: "স্কোলকা এতা স্তোয়িত?", en: "How much is this?" },
-    { bn: "আমি বুঝতে পারছি না।", ru_cy: "Я не понимаю.", ru_bn: "ইয়া নি পানিমাইউ।", en: "I don't understand." },
-    { bn: "শৌচাগারটি কোথায়?", ru_cy: "Где туалет?", ru_bn: "গদে তুয়ালের্ট?", en: "Where is the toilet?" },
-    { bn: "বিদায়।", ru_cy: "До свидания.", ru_bn: "দা স্বিদানিয়া।", en: "Goodbye." }
-];
+  <!-- Advertisement placeholder -->
+  <section class="section">
+    <div class="ad-placeholder">ADVERTISEMENT</div>
+  </section>
 
-let currentIndex = 0;
-let savedItems = JSON.parse(localStorage.getItem('savedRussianConvosV3')) || [];
-
-document.addEventListener('DOMContentLoaded', () => {
-    const pages = document.querySelectorAll('.page');
-    const navLinks = document.querySelectorAll('.nav-links a');
-    const menuToggle = document.getElementById('menu-toggle');
-    const navLinksContainer = document.getElementById('nav-links');
-    const cardStack = document.getElementById('card-stack');
-
-    const showPage = (pageId) => {
-        pages.forEach(page => page.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        navLinksContainer.classList.remove('active');
-        if (pageId === 'learning-page') loadCards();
-        if (pageId === 'saved-page') renderSavedItems();
-    };
-
-    navLinks.forEach(link => link.addEventListener('click', (e) => {
-        e.preventDefault();
-        showPage(e.target.getAttribute('data-page'));
-    }));
-
-    menuToggle.addEventListener('click', () => navLinksContainer.classList.toggle('active'));
-    document.getElementById('start-learning').addEventListener('click', (e) => {
-        e.preventDefault();
-        showPage('learning-page');
-    });
-
-    document.getElementById('learned-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        const currentItem = conversations[currentIndex];
-        if (!savedItems.some(item => item.bn === currentItem.bn)) {
-            savedItems.push(currentItem);
-            localStorage.setItem('savedRussianConvosV3', JSON.stringify(savedItems));
-            alert('"' + currentItem.bn + '"' + ' - বাক্যটি আপনার শেখা তালিকায় যুক্ত হয়েছে।');
-        } else {
-            alert('এই বাক্যটি ইতিমধ্যে আপনার শেখা তালিকায় আছে।');
-        }
-    });
-
-    const createCardHTML = (item) => `
-        <div class="lang-item"><span class="label">বাংলা</span><p class="text">${item.bn}</p></div>
-        <div class="lang-item"><span class="label">রাশিয়ান</span><p class="text lang-ru-cy">${item.ru_cy}</p></div>
-        <div class="lang-item"><span class="label">উচ্চারণ</span><p class="text">${item.ru_bn}</p></div>
-        <div class="lang-item"><span class="label">ENGLISH</span><p class="text">${item.en}</p></div>`;
-
-    const loadCards = () => {
-        cardStack.innerHTML = '';
-        const indicesToLoad = [currentIndex, (currentIndex + 1) % conversations.length, (currentIndex + 2) % conversations.length];
-        indicesToLoad.reverse().forEach(index => {
-            const card = document.createElement('div');
-            card.className = 'conversation-card';
-            card.innerHTML = createCardHTML(conversations[index]);
-            cardStack.appendChild(card);
-        });
-        initSwipe();
-    };
-
-    const nextCard = () => {
-        currentIndex = (currentIndex + 1) % conversations.length;
-        loadCards();
-    };
-
-    const prevCard = () => {
-        currentIndex = (currentIndex - 1 + conversations.length) % conversations.length;
-        loadCards();
-    };
-
-    function initSwipe() {
-        const topCard = cardStack.querySelector('.conversation-card:last-child');
-        if (!topCard) return;
-
-        let startX = 0, startY = 0, moveX = 0, moveY = 0;
-        let isDragging = false;
-
-        function onStart(e) {
-            isDragging = true;
-            startX = e.pageX || e.touches[0].pageX;
-            topCard.style.transition = 'none';
-        }
-
-        function onMove(e) {
-            if (!isDragging) return;
-            moveX = (e.pageX || e.touches[0].pageX) - startX;
-            topCard.style.transform = `translateX(${moveX}px) rotate(${moveX / 10}deg)`;
-        }
-
-        function onEnd(e) {
-            if (!isDragging) return;
-            isDragging = false;
-            topCard.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-
-            if (Math.abs(moveX) > 100) {
-                const direction = moveX > 0 ? 1 : -1;
-                topCard.style.transform = `translateX(${direction * 500}px)`;
-                topCard.style.opacity = '0';
-                setTimeout(() => {
-                    direction === 1 ? prevCard() : nextCard();
-                }, 300);
-            } else {
-                topCard.style.transform = '';
-            }
-        }
-
-        topCard.addEventListener('mousedown', onStart);
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onEnd);
-        topCard.addEventListener('touchstart', onStart, { passive: true });
-        document.addEventListener('touchmove', onMove, { passive: true });
-        document.addEventListener('touchend', onEnd);
-    }
-
-    const renderSavedItems = () => {
-        const container = document.getElementById('saved-items-container');
-        container.innerHTML = '<h2 style="text-align:center; color: var(--primary-color); margin-bottom: 20px;">আপনার শেখা বাক্যের তালিকা</h2>';
-        if (savedItems.length === 0) {
-            container.innerHTML += '<p style="text-align:center;">আপনি এখনও কোনো বাক্য সেভ করেননি।</p>';
-        } else {
-            savedItems.forEach((item, index) => {
-                const cardEl = document.createElement('div');
-                cardEl.className = 'conversation-card';
-                cardEl.innerHTML = createCardHTML(item) + `<button class="remove-btn" onclick="removeSavedItem(${index})">X</button>`;
-                container.appendChild(cardEl);
-            });
-        }
-    };
-
-    window.removeSavedItem = (index) => {
-        savedItems.splice(index, 1);
-        localStorage.setItem('savedRussianConvosV3', JSON.stringify(savedItems));
-        renderSavedItems();
-    };
-
-    showPage('home-page');
-});
-</script>
-
+  <!-- Footer with copyright -->
+  <footer>
+    <p>&copy; ২০২৫ বাংলা থেকে রাশিয়ান। সব অধিকার সংরক্ষিত।</p>
+  </footer>
 </body>
 </html>
