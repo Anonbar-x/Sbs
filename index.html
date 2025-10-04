@@ -8,13 +8,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap');
 
         :root {
-            --primary-color: #005c97;
-            --secondary-color: #363795;
-            --background-color: #f0f4f8;
-            --text-color: #333;
+            --primary-color: #0d47a1; /* Deeper Blue */
+            --secondary-color: #1976d2; /* Brighter Blue */
+            --background-color: #e3f2fd; /* Very Light Blue */
+            --text-color: #212121;
             --card-bg-color: #ffffff;
-            --save-btn-color: #28a745;
-            --next-prev-btn-color: #007bff;
+            --save-btn-color: #4caf50;
+            --next-prev-btn-color: #1e88e5;
+            --ad-placeholder-bg: #e0e0e0;
         }
 
         body {
@@ -22,371 +23,254 @@
             margin: 0;
             background-color: var(--background-color);
             color: var(--text-color);
-            line-height: 1.6;
+            line-height: 1.7;
+        }
+
+        /* --- Main Layout with Ad Spaces --- */
+        .site-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .ad-placeholder {
+            background-color: var(--ad-placeholder-bg);
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+            color: #616161;
+        }
+        #ad-top, #ad-bottom {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        #ad-left, #ad-right {
+            width: 160px;
+            display: none; /* Hidden on mobile by default */
+        }
+        
+        #main-content {
+            width: 100%;
+            padding: 15px;
         }
 
         /* --- Navigation Bar --- */
         .navbar {
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 0.8rem 1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-        .navbar .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-        .navbar .nav-links {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-        .navbar .nav-links li {
-            margin-left: 20px;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        .navbar a:hover {
-            color: #ffc107;
-        }
-        .menu-toggle {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* --- Page Content --- */
-        .page {
-            display: none;
-            padding: 2rem;
-            max-width: 900px;
-            margin: 2rem auto;
-            background-color: var(--card-bg-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .page.active {
-            display: block;
-        }
-        .page h1, .page h2 {
-            color: var(--primary-color);
-            text-align: center;
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* --- Home Page --- */
-        #home-page p {
-            font-size: 1.1rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .start-button {
-            display: block;
-            width: 200px;
-            margin: 0 auto;
-            padding: 15px 30px;
-            background-color: var(--secondary-color);
-            color: white;
-            text-align: center;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-        .start-button:hover {
-            background-color: var(--primary-color);
-            transform: scale(1.05);
-        }
-
-        /* --- Slider/Learning Page --- */
-        .slider-container {
-            text-align: center;
-        }
-        .card {
-            border: 1px solid #ddd;
-            border-left: 5px solid var(--primary-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #fdfdfd;
-        }
-        .card h3 {
-            margin-top: 0;
-            font-size: 1.1rem;
-            color: var(--secondary-color);
-        }
-        .card p {
-            font-size: 1.4rem;
-            margin: 5px 0;
-            font-weight: 500;
-        }
-        .card .russian-cyrillic {
-            font-family: 'Segoe UI', 'Arial', sans-serif; /* For better Cyrillic rendering */
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-        .slider-controls {
+        .navbar-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
         }
-        .slider-controls button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+        .logo { font-weight: 700; font-size: 1.3rem; }
+        .menu-toggle { font-size: 1.5rem; cursor: pointer; }
+        .nav-links {
+            list-style: none;
+            margin: 0; padding: 0;
+            position: fixed;
+            top: 0; left: -250px; /* Hidden off-screen */
+            width: 250px; height: 100%;
+            background: var(--primary-color);
+            flex-direction: column;
+            padding-top: 60px;
+            transition: left 0.3s ease;
         }
-        .prev-btn, .next-btn {
-            background-color: var(--next-prev-btn-color);
+        .nav-links.active { left: 0; }
+        .nav-links li a {
+            display: block; padding: 15px 20px;
+            color: white; text-decoration: none;
         }
-        .prev-btn:hover, .next-btn:hover {
-            background-color: #0056b3;
+        .nav-links li a:hover { background-color: var(--secondary-color); }
+
+        /* --- Page Content --- */
+        .page { display: none; }
+        .page.active { display: block; }
+        .page h1, .page h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
         }
-        .save-btn {
-            background-color: var(--save-btn-color);
+
+        /* --- New Compact Card Design --- */
+        .conversation-card {
+            background: var(--card-bg-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin: 0 auto 20px auto;
+            max-width: 500px;
+            text-align: left;
+            border-top: 5px solid var(--primary-color);
         }
-        .save-btn:hover {
-            background-color: #218838;
+        .lang-item {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eeeeee;
         }
-        #progress {
-            font-size: 1rem;
+        .lang-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .lang-item .label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #757575;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .lang-item .text {
+            font-size: 1.2rem;
             font-weight: 500;
         }
+        .lang-ru-cy { font-family: 'Times New Roman', Times, serif; color: var(--secondary-color); font-size: 1.3rem; }
+        .lang-ru-bn { font-style: italic; color: #424242; }
+        .lang-en { font-size: 1.1rem; color: #616161; }
+        .remove-btn {
+            background-color: #ef5350; color: white; border: none;
+            padding: 5px 10px; border-radius: 4px; cursor: pointer;
+            float: right; font-size: 0.8rem;
+        }
+        #no-saved-items { text-align: center; color: #777; font-size: 1.2rem; }
 
-        /* --- Saved Page --- */
-        #saved-items-container .card {
-            text-align: left;
-            margin-bottom: 1rem;
+        /* --- Controls --- */
+        .slider-controls, .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 500px;
+            margin: 20px auto;
         }
-        #no-saved-items {
-            text-align: center;
-            color: #777;
-            font-size: 1.2rem;
+        .slider-controls button, .action-buttons button {
+            border: none; border-radius: 50px;
+            color: white; font-size: 1rem; cursor: pointer;
+            padding: 12px 25px;
+            transition: transform 0.2s ease;
         }
-        #saved-items-container .card button {
-             background-color: #dc3545;
-             color: white;
-             border: none;
-             padding: 5px 10px;
-             border-radius: 4px;
-             cursor: pointer;
-             float: right;
+        .slider-controls button:hover, .action-buttons button:hover { transform: scale(1.05); }
+        .prev-btn, .next-btn { background-color: var(--next-prev-btn-color); }
+        .save-btn { background-color: var(--save-btn-color); width: 100%; }
+        #progress { font-weight: 700; color: var(--primary-color); font-size: 1.1rem; }
+        .start-button {
+            display: block; width: 200px; margin: 2rem auto; padding: 15px;
+            background-color: var(--primary-color); color: white; text-align: center;
+            border: none; border-radius: 50px; font-size: 1.2rem; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease;
         }
+        .start-button:hover { background-color: var(--secondary-color); transform: scale(1.05); }
 
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            .navbar .nav-links {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-                padding: 1rem 0;
-            }
-            .navbar .nav-links.active {
+        /* Desktop Layout */
+        @media (min-width: 1024px) {
+            #ad-left, #ad-right {
                 display: flex;
+                align-items: center;
+                justify-content: center;
             }
-            .navbar .nav-links li {
-                margin: 10px 0;
-                text-align: center;
-            }
-            .menu-toggle {
-                display: block;
-            }
-            .page {
-                padding: 1rem;
-                margin: 1rem;
+            #main-content {
+                max-width: 700px;
+                margin: 0 auto;
+                padding: 30px;
             }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo">রুশ বাংলা পাঠশালা</div>
-        <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-        <ul class="nav-links" id="nav-links">
-            <li><a href="#" data-page="home-page">হোম</a></li>
-            <li><a href="#" data-page="saved-page">সেভ করা বাক্য</a></li>
-            <li><a href="#" data-page="about-page">আমাদের সম্পর্কে</a></li>
-            <li><a href="#" data-page="contact-page">যোগাযোগ</a></li>
-            <li><a href="#" data-page="privacy-page">প্রাইভেসি পলিসি</a></li>
-        </ul>
-    </nav>
+    <div class="site-wrapper">
+        <div id="ad-top" class="ad-placeholder">Top Ad Space (970x90 / 728x90)</div>
 
-    <div id="home-page" class="page active">
-        <h1>রুশ বাংলা পাঠশালায় স্বাগতম!</h1>
-        <p>
-            এই প্ল্যাটফর্মটি বিশেষভাবে রাশিয়া প্রবাসী বাংলাদেশিদের (ছাত্র, কর্মী এবং অন্যান্য) জন্য তৈরি করা হয়েছে। এখানে আপনি দৈনন্দিন জীবনে ব্যবহৃত জরুরি রাশিয়ান বাক্যগুলো বাংলা ও ইংরেজি অর্থের পাশাপাশি বাংলা উচ্চারণসহ শিখতে ও অনুশীলন করতে পারবেন। আপনার প্রয়োজনীয় বাক্যগুলো 'সেভ' করে রাখতে পারেন, যা পরবর্তীতে সহজেই খুঁজে পেতে সাহায্য করবে। আপনার রাশিয়া ভ্রমণ আনন্দময় হোক!
-        </p>
-        <button class="start-button" id="start-learning">শুরু করুন (Let's Start)</button>
-    </div>
+        <div class="main-container">
+            <div id="ad-left" class="ad-placeholder">Left Ad Space (160x600)</div>
+            
+            <main id="main-content">
+                <nav class="navbar">
+                    <div class="navbar-content">
+                        <div class="logo">রুশ বাংলা পাঠশালা</div>
+                        <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+                    </div>
+                </nav>
+                 <ul class="nav-links" id="nav-links">
+                    <li><a href="#" data-page="home-page">হোম</a></li>
+                    <li><a href="#" data-page="saved-page">সেভ করা বাক্য</a></li>
+                    <li><a href="#" data-page="about-page">আমাদের সম্পর্কে</a></li>
+                </ul>
 
-    <div id="learning-page" class="page">
-        <h2>দৈনন্দিন কথোপকথন</h2>
-        <div class="slider-container" id="slider-container">
-            </div>
-        <div class="slider-controls">
-            <button class="prev-btn" id="prev-btn">আগেরটি (Previous)</button>
-            <span id="progress"></span>
-            <button class="next-btn" id="next-btn">পরেরটি (Next)</button>
+                <div id="home-page" class="page active">
+                    <h1>স্বাগতম!</h1>
+                    <p style="text-align: center;">রাশিয়া প্রবাসী বাংলাদেশিদের জন্য দৈনন্দিন রাশিয়ান কথোপকথন শেখার সহজ প্ল্যাটফর্ম। আপনার প্রয়োজনীয় বাক্য সেভ করে রাখুন এবং নিয়মিত অনুশীলন করুন।</p>
+                    <button class="start-button" id="start-learning">অনুশীলন শুরু করুন</button>
+                </div>
+
+                <div id="learning-page" class="page">
+                    <h2>অনুশীলন</h2>
+                    <div id="slider-container">
+                        </div>
+                    <div class="slider-controls">
+                        <button class="prev-btn" id="prev-btn">আগেরটি</button>
+                        <span id="progress"></span>
+                        <button class="next-btn" id="next-btn">পরেরটি</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="save-btn" id="save-btn">এই বাক্যটি সেভ করুন</button>
+                    </div>
+                </div>
+
+                <div id="saved-page" class="page">
+                    <h2>আপনার সেভ করা বাক্য</h2>
+                    <div id="saved-items-container"></div>
+                    <p id="no-saved-items">আপনি এখনও কোনো বাক্য সেভ করেননি।</p>
+                </div>
+                
+                <div id="about-page" class="page">
+                    <h2>আমাদের সম্পর্কে</h2>
+                    <p>আমরা রাশিয়া প্রবাসী বাংলাদেশিদের দৈনন্দিন যোগাযোগের সুবিধার্থে এই প্ল্যাটফর্মটি তৈরি করেছি। আমাদের লক্ষ্য হলো, ভাষার ভিন্নতার কারণে যেন কাউকে কোনো সমস্যায় পড়তে না হয়।</p>
+                </div>
+            </main>
+            
+            <div id="ad-right" class="ad-placeholder">Right Ad Space (160x600)</div>
         </div>
-         <div style="text-align: center; margin-top: 20px;">
-             <button class="save-btn" id="save-btn">এই বাক্যটি সেভ করুন (Save this)</button>
-         </div>
-    </div>
-    
-    <div id="saved-page" class="page">
-        <h2>আপনার সেভ করা বাক্যসমূহ</h2>
-        <div id="saved-items-container">
-            </div>
-        <p id="no-saved-items">আপনি এখনও কোনো বাক্য সেভ করেননি।</p>
-    </div>
 
-    <div id="about-page" class="page">
-        <h2>আমাদের সম্পর্কে (About Us)</h2>
-        <p>আমরা রাশিয়া প্রবাসী বাংলাদেশিদের দৈনন্দিন যোগাযোগের সুবিধার্থে এই প্ল্যাটফর্মটি তৈরি করেছি। আমাদের লক্ষ্য হলো, ভাষার ভিন্নতার কারণে যেন কাউকে কোনো সমস্যায় পড়তে না হয়।</p>
-    </div>
-
-    <div id="contact-page" class="page">
-        <h2>যোগাযোগ (Contact)</h2>
-        <p>যেকোনো প্রয়োজনে বা মতামতের জন্য আমাদের ইমেইল করুন: contact@example.com</p>
-    </div>
-    
-    <div id="privacy-page" class="page">
-        <h2>প্রাইভেসি পলিসি (Privacy Policy)</h2>
-        <p>আমরা আপনার কোনো ব্যক্তিগত তথ্য সংগ্রহ করি না। সেভ করা বাক্যগুলো আপনার ডিভাইসের ব্রাউজারেই সংরক্ষিত থাকে।</p>
+        <div id="ad-bottom" class="ad-placeholder">Bottom Ad Space (970x90 / 728x90)</div>
     </div>
 
 <script>
 const conversations = [
-    {
-        bn: "হ্যালো / আসসালামু আলাইকুম",
-        ru_bn: "জ্দ্রাস্তভুইতে / প্রিভেত",
-        ru_cy: "Здравствуйте / Привет",
-        en: "Hello"
-    },
-    {
-        bn: "আপনার নাম কি?",
-        ru_bn: "কাক ভাস যাভুত?",
-        ru_cy: "Как вас зовут?",
-        en: "What is your name?"
-    },
-    {
-        bn: "আমার নাম মেহেদী হাসান।",
-        ru_bn: "মিনিয়া যাভুত মেহেদী হাসান।",
-        ru_cy: "Меня зовут Мехеди Хасан.",
-        en: "My name is Mehedi Hasan."
-    },
-    {
-        bn: "আপনি কেমন আছেন?",
-        ru_bn: "কাক দিলা?",
-        ru_cy: "Как дела?",
-        en: "How are you?"
-    },
-    {
-        bn: "আমি ভালো আছি, ধন্যবাদ।",
-        ru_bn: "খারাশো, স্পাসিবা।",
-        ru_cy: "Хорошо, спасибо.",
-        en: "I'm fine, thank you."
-    },
-    {
-        bn: "আপনি কোথা থেকে এসেছেন?",
-        ru_bn: "আতকুদা ভি?",
-        ru_cy: "Откуда вы?",
-        en: "Where are you from?"
-    },
-    {
-        bn: "আমি বাংলাদেশ থেকে এসেছি।",
-        ru_bn: "ইয়া ইজ বাংলাদেশা।",
-        ru_cy: "Я из Бангладеша.",
-        en: "I am from Bangladesh."
-    },
-    {
-        bn: "ধন্যবাদ।",
-        ru_bn: "স্পাসিবা।",
-        ru_cy: "Спасибо.",
-        en: "Thank you."
-    },
-    {
-        bn: "দয়া করে।",
-        ru_bn: "পাঝালুস্তা।",
-        ru_cy: "Пожалуйста.",
-        en: "Please / You're welcome."
-    },
-    {
-        bn: "দুঃখিত।",
-        ru_bn: "ইজভিনিতে।",
-        ru_cy: "Извините.",
-        en: "Sorry / Excuse me."
-    },
-    {
-        bn: "এটার দাম কত?",
-        ru_bn: "স্কোলকা এতা স্তোয়িত?",
-        ru_cy: "Сколько это стоит?",
-        en: "How much does this cost?"
-    },
-    {
-        bn: "আমি বুঝতে পারছি না।",
-        ru_bn: "ইয়া নি পানিমাইউ।",
-        ru_cy: "Я не понимаю.",
-        en: "I don't understand."
-    },
-    {
-        bn: "আপনি কি ইংরেজিতে কথা বলেন?",
-        ru_bn: "ভি গাভারিতে পা আংলিস্কি?",
-        ru_cy: "Вы говорите по-английски?",
-        en: "Do you speak English?"
-    },
-    {
-        bn: "আমি একজন ছাত্র।",
-        ru_bn: "ইয়া স্তুদেন্ত।",
-        ru_cy: "Я студент.",
-        en: "I am a student."
-    },
-    {
-        bn: "আমি এখানে কাজ করি।",
-        ru_bn: "ইয়া জদেস রাবোতাইউ।",
-        ru_cy: "Я здесь работаю.",
-        en: "I work here."
-    },
-    {
-        bn: "শৌচাগারটি কোথায়?",
-        ru_bn: "গদে তুয়ালের্ট?",
-        ru_cy: "Где туалет?",
-        en: "Where is the toilet?"
-    },
-    {
-        bn: "বিদায়।",
-        ru_bn: "দা স্বিদানিয়া / পাকা।",
-        ru_cy: "До свидания / Пока.",
-        en: "Goodbye."
-    }
+    { bn: "হ্যালো", ru_cy: "Здравствуйте", ru_bn: "জ্দ্রাস্তভুইতে", en: "Hello" },
+    { bn: "আপনার নাম কি?", ru_cy: "Как вас зовут?", ru_bn: "কাক ভাস যাভুত?", en: "What is your name?" },
+    { bn: "আমার নাম...", ru_cy: "Меня зовут...", ru_bn: "মিনিয়া যাভুত...", en: "My name is..." },
+    { bn: "আপনি কেমন আছেন?", ru_cy: "Как дела?", ru_bn: "কাক দিলা?", en: "How are you?" },
+    { bn: "আমি ভালো আছি, ধন্যবাদ।", ru_cy: "Хорошо, спасибо.", ru_bn: "খারাশো, স্পাসিবা।", en: "I'm fine, thank you." },
+    { bn: "আমি বাংলাদেশ থেকে এসেছি।", ru_cy: "Я из Бангладеша.", ru_bn: "ইয়া ইজ বাংলাদেশা।", en: "I am from Bangladesh." },
+    { bn: "ধন্যবাদ।", ru_cy: "Спасибо.", ru_bn: "স্পাসিবা।", en: "Thank you." },
+    { bn: "দয়া করে।", ru_cy: "Пожалуйста.", ru_bn: "পাঝালুস্তা।", en: "Please / You're welcome." },
+    { bn: "দুঃখিত।", ru_cy: "Извините.", ru_bn: "ইজভিনিতে।", en: "Sorry / Excuse me." },
+    { bn: "এটার দাম কত?", ru_cy: "Сколько это стоит?", ru_bn: "স্কোলকা এতা স্তোয়িত?", en: "How much is this?" },
+    { bn: "আমি বুঝতে পারছি না।", ru_cy: "Я не понимаю.", ru_bn: "ইয়া নি পানিমাইউ।", en: "I don't understand." },
+    { bn: "আমি একজন ছাত্র।", ru_cy: "Я студент.", ru_bn: "ইয়া স্তুদেন্ত।", en: "I am a student (male)." },
+    { bn: "আমি একজন ছাত্রী।", ru_cy: "Я студентка.", ru_bn: "ইয়া স্তুদেন্তকা।", en: "I am a student (female)." },
+    { bn: "শৌচাগারটি কোথায়?", ru_cy: "Где туалет?", ru_bn: "গদে তুয়ালের্ট?", en: "Where is the toilet?" },
+    { bn: "বিদায়।", ru_cy: "До свидания.", ru_bn: "দা স্বিদানিয়া।", en: "Goodbye." }
 ];
 
 let currentIndex = 0;
-let savedItems = JSON.parse(localStorage.getItem('savedRussianConversations')) || [];
+let savedItems = JSON.parse(localStorage.getItem('savedRussianConvos')) || [];
 
 document.addEventListener('DOMContentLoaded', () => {
     const pages = document.querySelectorAll('.page');
@@ -395,27 +279,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinksContainer = document.getElementById('nav-links');
 
     function showPage(pageId) {
-        pages.forEach(page => {
-            page.classList.remove('active');
-        });
+        pages.forEach(page => page.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
-        navLinksContainer.classList.remove('active'); // Close menu on navigation
+        navLinksContainer.classList.remove('active');
     }
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const pageId = e.target.getAttribute('data-page');
-            if (pageId === 'saved-page') {
-                renderSavedItems();
-            }
+            if (pageId === 'saved-page') renderSavedItems();
             showPage(pageId);
         });
     });
     
-    menuToggle.addEventListener('click', () => {
-        navLinksContainer.classList.toggle('active');
-    });
+    menuToggle.addEventListener('click', () => navLinksContainer.classList.toggle('active'));
 
     document.getElementById('start-learning').addEventListener('click', () => {
         showPage('learning-page');
@@ -436,34 +314,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentItem = conversations[currentIndex];
         if (!savedItems.some(item => item.bn === currentItem.bn)) {
             savedItems.push(currentItem);
-            localStorage.setItem('savedRussianConversations', JSON.stringify(savedItems));
+            localStorage.setItem('savedRussianConvos', JSON.stringify(savedItems));
             alert('বাক্যটি সেভ করা হয়েছে!');
         } else {
             alert('এই বাক্যটি ইতিমধ্যে সেভ করা আছে।');
         }
     });
 
+    function createCardHTML(item, index = -1) {
+        const removeButton = index !== -1 ? `<button class="remove-btn" onclick="removeSavedItem(${index})">মুছুন</button>` : '';
+        return `
+            <div class="conversation-card">
+                ${removeButton}
+                <div class="lang-item">
+                    <span class="label">বাংলা (Bengali)</span>
+                    <p class="text lang-bn">${item.bn}</p>
+                </div>
+                <div class="lang-item">
+                    <span class="label">রাশিয়ান (Russian)</span>
+                    <p class="text lang-ru-cy">${item.ru_cy}</p>
+                </div>
+                <div class="lang-item">
+                    <span class="label">বাংলা উচ্চারণ (Pronunciation)</span>
+                    <p class="text lang-ru-bn">${item.ru_bn}</p>
+                </div>
+                <div class="lang-item">
+                    <span class="label">ইংরেজি (English)</span>
+                    <p class="text lang-en">${item.en}</p>
+                </div>
+            </div>`;
+    }
+
     function renderSlider() {
         const item = conversations[currentIndex];
-        const sliderContainer = document.getElementById('slider-container');
-        sliderContainer.innerHTML = `
-            <div class="card">
-                <h3>বাংলা (Bengali)</h3>
-                <p>${item.bn}</p>
-            </div>
-            <div class="card">
-                <h3>রাশিয়ান উচ্চারণ (Russian Pronunciation)</h3>
-                <p>${item.ru_bn}</p>
-            </div>
-            <div class="card">
-                <h3>রাশিয়ান (Russian)</h3>
-                <p class="russian-cyrillic">${item.ru_cy}</p>
-            </div>
-            <div class="card">
-                <h3>ইংরেজি (English)</h3>
-                <p>${item.en}</p>
-            </div>
-        `;
+        document.getElementById('slider-container').innerHTML = createCardHTML(item);
         document.getElementById('progress').innerText = `${currentIndex + 1} / ${conversations.length}`;
     }
 
@@ -477,27 +361,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             noItemsMsg.style.display = 'none';
             savedItems.forEach((item, index) => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <button onclick="removeSavedItem(${index})">মুছুন</button>
-                    <h3>বাংলা:</h3> <p>${item.bn}</p>
-                    <h3>রাশিয়ান উচ্চারণ:</h3> <p>${item.ru_bn}</p>
-                    <h3>রাশিয়ান:</h3> <p class="russian-cyrillic">${item.ru_cy}</p>
-                    <h3>ইংরেজি:</h3> <p>${item.en}</p>
-                `;
-                container.appendChild(card);
+                container.innerHTML += createCardHTML(item, index);
             });
         }
     }
     
     window.removeSavedItem = function(index) {
         savedItems.splice(index, 1);
-        localStorage.setItem('savedRussianConversations', JSON.stringify(savedItems));
+        localStorage.setItem('savedRussianConvos', JSON.stringify(savedItems));
         renderSavedItems();
     }
     
-    // Initial setup
     showPage('home-page');
 });
 </script>
