@@ -2,119 +2,95 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>রুশ বাংলা পাঠশালা</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap');
 
         :root {
-            --primary-color: #2c3e50; /* Midnight Blue */
-            --secondary-color: #3498db; /* Peter River Blue */
-            --background-color: #ecf0f1; /* Clouds White */
-            --text-color: #34495e; /* Wet Asphalt */
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --text-color: #34495e;
             --card-bg-color: #ffffff;
-            --success-color: #2ecc71; /* Emerald Green */
-            --light-gray: #bdc3c7;
+            --success-color: #27ae60;
+            --light-gray: #95a5a6;
             --font-family: 'Noto Sans Bengali', sans-serif;
         }
 
         *, *::before, *::after {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
         }
 
         html, body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden; /* ** The key to no-scrolling ** */
+            height: 100%; width: 100%;
+            overflow: hidden;
             font-family: var(--font-family);
-            background-color: var(--background-color);
+            background: var(--background-gradient);
         }
 
-        /* --- Full Screen App Container --- */
         .app-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            width: 100vw;
+            display: flex; flex-direction: column;
+            height: 100vh; width: 100vw;
         }
 
-        /* --- Header --- */
         .app-header {
-            flex-shrink: 0;
-            background: var(--primary-color);
-            color: white;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 60px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 10;
+            flex-shrink: 0; background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 0 20px; display: flex; align-items: center; justify-content: space-between;
+            height: 65px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 10;
+            border-bottom: 1px solid #e0e0e0;
         }
-        .logo { font-size: 1.4rem; font-weight: 700; }
-        .menu-toggle { font-size: 1.8rem; cursor: pointer; }
+        .logo { font-size: 1.4rem; font-weight: 700; color: var(--primary-color); }
+        .menu-toggle { font-size: 1.8rem; cursor: pointer; color: var(--primary-color); }
 
-        /* --- Side Navigation --- */
         .nav-links {
-            list-style: none;
-            position: fixed; top: 0; left: -280px;
-            width: 280px; height: 100%;
-            background: var(--primary-color);
-            padding-top: 60px;
-            transition: left 0.3s ease-in-out;
-            z-index: 100;
+            list-style: none; position: fixed; top: 0; left: -280px;
+            width: 280px; height: 100%; background: var(--primary-color);
+            padding-top: 60px; transition: left 0.3s ease-in-out; z-index: 100;
         }
         .nav-links.active { left: 0; }
         .nav-links li a {
-            display: block; padding: 18px 25px;
-            color: white; text-decoration: none;
-            font-size: 1.1rem; border-bottom: 1px solid #34495e;
+            display: block; padding: 18px 25px; color: white;
+            text-decoration: none; font-size: 1.1rem; border-bottom: 1px solid #34495e;
         }
         .nav-links li a:hover { background-color: var(--secondary-color); }
 
-        /* --- Main Content Area --- */
         .app-main {
-            flex-grow: 1;
-            padding: 20px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-grow: 1; padding: 20px 10px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
             position: relative;
-            overflow-y: auto; /* Allow scrolling only if content overflows on very small screens */
         }
-
+        
         .page {
-            width: 100%;
-            height: 100%;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            width: 100%; height: 100%; display: none; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
             animation: fadeIn 0.5s ease;
         }
         .page.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .page h1 { font-size: 2rem; color: var(--primary-color); margin-bottom: 1rem; }
-        .page p { max-width: 500px; margin: 0 auto 1.5rem auto; color: var(--text-color); font-size: 1.1rem; }
+        #home-page h1 { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 1rem; }
+        #home-page p { max-width: 500px; margin: 0 auto 2rem auto; color: var(--text-color); font-size: 1.1rem; }
         
-        /* --- Card Design --- */
+        /* --- Card Stack for Swiping --- */
+        .card-stack {
+            position: relative; width: 100%; max-width: 400px;
+            height: 480px; margin-bottom: 20px;
+        }
         .conversation-card {
-            background: var(--card-bg-color);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 25px;
-            width: 100%;
-            max-width: 450px;
-            border-top: 5px solid var(--secondary-color);
-            text-align: left;
+            background: var(--card-bg-color); border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 25px; text-align: left;
+            position: absolute; width: 100%; height: 100%;
+            cursor: grab; transition: transform 0.3s ease, opacity 0.3s ease;
+            touch-action: none; /* Prevents browser default actions */
         }
-        .lang-item {
-            margin-bottom: 18px;
-        }
+        .conversation-card:nth-child(2) { transform: scale(0.95) translateY(20px); opacity: 0.8; }
+        .conversation-card:nth-child(3) { transform: scale(0.9) translateY(40px); opacity: 0.6; }
+
+        .lang-item { margin-bottom: 20px; }
         .lang-item:last-child { margin-bottom: 0; }
         .lang-item .label {
             font-size: 0.8rem; font-weight: 700; color: var(--light-gray);
@@ -123,48 +99,34 @@
         .lang-item .text { font-size: 1.3rem; font-weight: 500; color: var(--text-color); }
         .lang-ru-cy { font-family: 'Times New Roman', Times, serif; color: var(--secondary-color); font-size: 1.5rem; }
 
-        /* --- Buttons --- */
         .btn {
-            border: none; border-radius: 50px; padding: 15px 30px;
-            color: white; font-size: 1.1rem; font-weight: 700;
+            border: none; border-radius: 50px; padding: 18px 40px;
+            color: white; font-size: 1.2rem; font-weight: 700;
             cursor: pointer; transition: all 0.3s ease;
             text-decoration: none; display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
         .btn-primary { background-color: var(--secondary-color); }
-        .btn-success { background-color: var(--success-color); width: 100%; margin-top: 20px;}
-
-        /* --- Slider Controls --- */
-        .slider-controls {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-top: 25px;
-        }
-        .slider-controls .btn-nav {
-            background-color: var(--primary-color); padding: 12px 20px; font-size: 1rem;
-        }
-        #progress { font-weight: 700; color: var(--primary-color); font-size: 1.2rem; }
+        .btn-success { background: linear-gradient(45deg, #27ae60, #2ecc71); }
         
-        /* --- Saved Page --- */
+        /* Saved Page */
+        #saved-page { justify-content: flex-start; }
         #saved-items-container {
-             width: 100%; max-width: 500px;
-             height: 100%; overflow-y: auto; padding-right: 10px;
+             width: 100%; max-width: 500px; height: 100%;
+             overflow-y: auto; padding: 15px;
         }
-        #saved-items-container .conversation-card { margin-bottom: 15px; position: relative; }
+        #saved-items-container .conversation-card {
+            position: relative; height: auto; margin-bottom: 15px; cursor: default;
+        }
         .remove-btn {
             position: absolute; top: 15px; right: 15px; background: #e74c3c;
             color: white; border: none; width: 30px; height: 30px;
             border-radius: 50%; cursor: pointer; font-weight: 700;
         }
-
-        /* --- Footer --- */
         .app-footer {
-            flex-shrink: 0;
-            text-align: center;
-            padding: 15px;
-            background: var(--background-color);
-            color: var(--text-color);
-            font-size: 0.9rem;
-            border-top: 1px solid #dcdde1;
+            flex-shrink: 0; text-align: center; padding: 15px;
+            color: var(--text-color); font-size: 0.9rem;
         }
     </style>
 </head>
@@ -179,49 +141,37 @@
 
         <ul class="nav-links" id="nav-links">
             <li><a href="#" data-page="home-page">হোম</a></li>
-            <li><a href="#" data-page="saved-page">সেভ করা বাক্য</a></li>
+            <li><a href="#" data-page="saved-page">শিখেছি তালিকা</a></li>
             <li><a href="#" data-page="about-page">আমাদের সম্পর্কে</a></li>
         </ul>
 
         <main class="app-main">
             <div id="home-page" class="page active">
                 <div>
-                    <h1>রাশিয়ান ভাষা শিখুন সহজে</h1>
-                    <p>রাশিয়া প্রবাসী বাংলাদেশিদের জন্য দৈনন্দিন কথোপকথন অনুশীলনের একটি আধুনিক প্ল্যাটফর্ম।</p>
-                    <a href="#" class="btn btn-primary" id="start-learning">অনুশীলন শুরু করুন</a>
+                    <h1>রাশিয়ান ভাষা শিখুন নতুন উপায়ে</h1>
+                    <p>কার্ড ডানে বা বামে সোয়াইপ করে অনুশীলন করুন। শেখা হয়ে গেলে "শিখেছি" বাটনে ক্লিক করে সেভ করুন।</p>
+                    <a href="#" class="btn btn-primary" id="start-learning">অনুশীলন শুরু করুন 🚀</a>
                 </div>
             </div>
 
             <div id="learning-page" class="page">
-                <div style="width:100%; max-width: 450px;">
-                    <div id="slider-container">
-                        </div>
-                    <div class="slider-controls">
-                        <a href="#" class="btn btn-nav" id="prev-btn">আগেরটি</a>
-                        <span id="progress"></span>
-                        <a href="#" class="btn btn-nav" id="next-btn">পরেরটি</a>
+                <div class="card-stack" id="card-stack">
                     </div>
-                    <a href="#" class="btn btn-success" id="save-btn">সেভ করুন</a>
-                </div>
+                <a href="#" class="btn btn-success" id="learned-btn">শিখেছি 👍</a>
             </div>
-
+            
             <div id="saved-page" class="page">
-                <div id="saved-items-container">
-                    </div>
+                <div id="saved-items-container"></div>
             </div>
 
             <div id="about-page" class="page">
                  <div>
-                    <h1>আমাদের সম্পর্কে</h1>
+                    <h1 style="font-size: 1.8rem;">আমাদের সম্পর্কে</h1>
                     <p>আমাদের লক্ষ্য, ভাষার ভিন্নতার কারণে রাশিয়াতে কোনো বাংলাদেশি যেন সমস্যায় না পড়েন।</p>
                 </div>
             </div>
         </main>
         
-        <footer class="app-footer">
-            &copy; 2025 রুশ বাংলা পাঠশালা। সর্বস্বত্ব সংরক্ষিত।
-        </footer>
-
     </div>
 
 <script>
@@ -242,89 +192,136 @@ const conversations = [
 ];
 
 let currentIndex = 0;
-let savedItems = JSON.parse(localStorage.getItem('savedRussianConvosV2')) || [];
+let savedItems = JSON.parse(localStorage.getItem('savedRussianConvosV3')) || [];
 
 document.addEventListener('DOMContentLoaded', () => {
     const pages = document.querySelectorAll('.page');
     const navLinks = document.querySelectorAll('.nav-links a');
     const menuToggle = document.getElementById('menu-toggle');
     const navLinksContainer = document.getElementById('nav-links');
+    const cardStack = document.getElementById('card-stack');
 
     const showPage = (pageId) => {
         pages.forEach(page => page.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
         navLinksContainer.classList.remove('active');
+        if (pageId === 'learning-page') loadCards();
         if (pageId === 'saved-page') renderSavedItems();
     };
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            showPage(e.target.getAttribute('data-page'));
-        });
-    });
+    navLinks.forEach(link => link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage(e.target.getAttribute('data-page'));
+    }));
 
     menuToggle.addEventListener('click', () => navLinksContainer.classList.toggle('active'));
     document.getElementById('start-learning').addEventListener('click', (e) => {
         e.preventDefault();
         showPage('learning-page');
-        renderSlider();
     });
-    document.getElementById('prev-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        currentIndex = (currentIndex > 0) ? currentIndex - 1 : conversations.length - 1;
-        renderSlider();
-    });
-    document.getElementById('next-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        currentIndex = (currentIndex < conversations.length - 1) ? currentIndex + 1 : 0;
-        renderSlider();
-    });
-    document.getElementById('save-btn').addEventListener('click', (e) => {
+
+    document.getElementById('learned-btn').addEventListener('click', (e) => {
         e.preventDefault();
         const currentItem = conversations[currentIndex];
         if (!savedItems.some(item => item.bn === currentItem.bn)) {
             savedItems.push(currentItem);
-            localStorage.setItem('savedRussianConvosV2', JSON.stringify(savedItems));
-            alert('বাক্যটি সেভ করা হয়েছে!');
+            localStorage.setItem('savedRussianConvosV3', JSON.stringify(savedItems));
+            alert('"' + currentItem.bn + '"' + ' - বাক্যটি আপনার শেখা তালিকায় যুক্ত হয়েছে।');
         } else {
-            alert('এই বাক্যটি ইতিমধ্যে সেভ করা আছে।');
+            alert('এই বাক্যটি ইতিমধ্যে আপনার শেখা তালিকায় আছে।');
         }
     });
 
-    const createCardHTML = (item, index = -1) => {
-        const removeButton = index !== -1 ? `<button class="remove-btn" onclick="removeSavedItem(${index})">X</button>` : '';
-        return `
-            <div class="conversation-card">
-                ${removeButton}
-                <div class="lang-item"><span class="label">বাংলা</span><p class="text">${item.bn}</p></div>
-                <div class="lang-item"><span class="label">রাশিয়ান</span><p class="text lang-ru-cy">${item.ru_cy}</p></div>
-                <div class="lang-item"><span class="label">উচ্চারণ</span><p class="text">${item.ru_bn}</p></div>
-                <div class="lang-item"><span class="label">ENGLISH</span><p class="text">${item.en}</p></div>
-            </div>`;
+    const createCardHTML = (item) => `
+        <div class="lang-item"><span class="label">বাংলা</span><p class="text">${item.bn}</p></div>
+        <div class="lang-item"><span class="label">রাশিয়ান</span><p class="text lang-ru-cy">${item.ru_cy}</p></div>
+        <div class="lang-item"><span class="label">উচ্চারণ</span><p class="text">${item.ru_bn}</p></div>
+        <div class="lang-item"><span class="label">ENGLISH</span><p class="text">${item.en}</p></div>`;
+
+    const loadCards = () => {
+        cardStack.innerHTML = '';
+        const indicesToLoad = [currentIndex, (currentIndex + 1) % conversations.length, (currentIndex + 2) % conversations.length];
+        indicesToLoad.reverse().forEach(index => {
+            const card = document.createElement('div');
+            card.className = 'conversation-card';
+            card.innerHTML = createCardHTML(conversations[index]);
+            cardStack.appendChild(card);
+        });
+        initSwipe();
     };
 
-    const renderSlider = () => {
-        const item = conversations[currentIndex];
-        document.getElementById('slider-container').innerHTML = createCardHTML(item);
-        document.getElementById('progress').innerText = `${currentIndex + 1}/${conversations.length}`;
+    const nextCard = () => {
+        currentIndex = (currentIndex + 1) % conversations.length;
+        loadCards();
     };
+
+    const prevCard = () => {
+        currentIndex = (currentIndex - 1 + conversations.length) % conversations.length;
+        loadCards();
+    };
+
+    function initSwipe() {
+        const topCard = cardStack.querySelector('.conversation-card:last-child');
+        if (!topCard) return;
+
+        let startX = 0, startY = 0, moveX = 0, moveY = 0;
+        let isDragging = false;
+
+        function onStart(e) {
+            isDragging = true;
+            startX = e.pageX || e.touches[0].pageX;
+            topCard.style.transition = 'none';
+        }
+
+        function onMove(e) {
+            if (!isDragging) return;
+            moveX = (e.pageX || e.touches[0].pageX) - startX;
+            topCard.style.transform = `translateX(${moveX}px) rotate(${moveX / 10}deg)`;
+        }
+
+        function onEnd(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            topCard.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+
+            if (Math.abs(moveX) > 100) {
+                const direction = moveX > 0 ? 1 : -1;
+                topCard.style.transform = `translateX(${direction * 500}px)`;
+                topCard.style.opacity = '0';
+                setTimeout(() => {
+                    direction === 1 ? prevCard() : nextCard();
+                }, 300);
+            } else {
+                topCard.style.transform = '';
+            }
+        }
+
+        topCard.addEventListener('mousedown', onStart);
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onEnd);
+        topCard.addEventListener('touchstart', onStart, { passive: true });
+        document.addEventListener('touchmove', onMove, { passive: true });
+        document.addEventListener('touchend', onEnd);
+    }
 
     const renderSavedItems = () => {
         const container = document.getElementById('saved-items-container');
-        container.innerHTML = '<h2>আপনার সেভ করা বাক্য</h2>';
+        container.innerHTML = '<h2 style="text-align:center; color: var(--primary-color); margin-bottom: 20px;">আপনার শেখা বাক্যের তালিকা</h2>';
         if (savedItems.length === 0) {
-            container.innerHTML += '<p>আপনি এখনও কোনো বাক্য সেভ করেননি।</p>';
+            container.innerHTML += '<p style="text-align:center;">আপনি এখনও কোনো বাক্য সেভ করেননি।</p>';
         } else {
             savedItems.forEach((item, index) => {
-                container.innerHTML += createCardHTML(item, index);
+                const cardEl = document.createElement('div');
+                cardEl.className = 'conversation-card';
+                cardEl.innerHTML = createCardHTML(item) + `<button class="remove-btn" onclick="removeSavedItem(${index})">X</button>`;
+                container.appendChild(cardEl);
             });
         }
     };
 
     window.removeSavedItem = (index) => {
         savedItems.splice(index, 1);
-        localStorage.setItem('savedRussianConvosV2', JSON.stringify(savedItems));
+        localStorage.setItem('savedRussianConvosV3', JSON.stringify(savedItems));
         renderSavedItems();
     };
 
