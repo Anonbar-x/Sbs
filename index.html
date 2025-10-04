@@ -8,246 +8,220 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap');
 
         :root {
-            --primary-color: #0d47a1; /* Deeper Blue */
-            --secondary-color: #1976d2; /* Brighter Blue */
-            --background-color: #e3f2fd; /* Very Light Blue */
-            --text-color: #212121;
+            --primary-color: #2c3e50; /* Midnight Blue */
+            --secondary-color: #3498db; /* Peter River Blue */
+            --background-color: #ecf0f1; /* Clouds White */
+            --text-color: #34495e; /* Wet Asphalt */
             --card-bg-color: #ffffff;
-            --save-btn-color: #4caf50;
-            --next-prev-btn-color: #1e88e5;
-            --ad-placeholder-bg: #e0e0e0;
+            --success-color: #2ecc71; /* Emerald Green */
+            --light-gray: #bdc3c7;
+            --font-family: 'Noto Sans Bengali', sans-serif;
         }
 
-        body {
-            font-family: 'Noto Sans Bengali', sans-serif;
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.7;
+            padding: 0;
         }
 
-        /* --- Main Layout with Ad Spaces --- */
-        .site-wrapper {
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* ** The key to no-scrolling ** */
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+        }
+
+        /* --- Full Screen App Container --- */
+        .app-container {
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
         }
 
-        .ad-placeholder {
-            background-color: var(--ad-placeholder-bg);
-            text-align: center;
-            padding: 10px;
-            font-size: 0.9rem;
-            color: #616161;
-        }
-        #ad-top, #ad-bottom {
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .main-container {
-            display: flex;
-            flex: 1;
-        }
-
-        #ad-left, #ad-right {
-            width: 160px;
-            display: none; /* Hidden on mobile by default */
-        }
-        
-        #main-content {
-            width: 100%;
-            padding: 15px;
-        }
-
-        /* --- Navigation Bar --- */
-        .navbar {
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        /* --- Header --- */
+        .app-header {
+            flex-shrink: 0;
+            background: var(--primary-color);
             color: white;
-            padding: 0.8rem 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .navbar-content {
+            padding: 0 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            max-width: 900px;
-            margin: 0 auto;
+            justify-content: space-between;
+            height: 60px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 10;
         }
-        .logo { font-weight: 700; font-size: 1.3rem; }
-        .menu-toggle { font-size: 1.5rem; cursor: pointer; }
+        .logo { font-size: 1.4rem; font-weight: 700; }
+        .menu-toggle { font-size: 1.8rem; cursor: pointer; }
+
+        /* --- Side Navigation --- */
         .nav-links {
             list-style: none;
-            margin: 0; padding: 0;
-            position: fixed;
-            top: 0; left: -250px; /* Hidden off-screen */
-            width: 250px; height: 100%;
+            position: fixed; top: 0; left: -280px;
+            width: 280px; height: 100%;
             background: var(--primary-color);
-            flex-direction: column;
             padding-top: 60px;
-            transition: left 0.3s ease;
+            transition: left 0.3s ease-in-out;
+            z-index: 100;
         }
         .nav-links.active { left: 0; }
         .nav-links li a {
-            display: block; padding: 15px 20px;
+            display: block; padding: 18px 25px;
             color: white; text-decoration: none;
+            font-size: 1.1rem; border-bottom: 1px solid #34495e;
         }
         .nav-links li a:hover { background-color: var(--secondary-color); }
 
-        /* --- Page Content --- */
-        .page { display: none; }
-        .page.active { display: block; }
-        .page h1, .page h2 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 2rem;
+        /* --- Main Content Area --- */
+        .app-main {
+            flex-grow: 1;
+            padding: 20px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-y: auto; /* Allow scrolling only if content overflows on very small screens */
         }
 
-        /* --- New Compact Card Design --- */
+        .page {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        .page.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        .page h1 { font-size: 2rem; color: var(--primary-color); margin-bottom: 1rem; }
+        .page p { max-width: 500px; margin: 0 auto 1.5rem auto; color: var(--text-color); font-size: 1.1rem; }
+        
+        /* --- Card Design --- */
         .conversation-card {
             background: var(--card-bg-color);
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin: 0 auto 20px auto;
-            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 25px;
+            width: 100%;
+            max-width: 450px;
+            border-top: 5px solid var(--secondary-color);
             text-align: left;
-            border-top: 5px solid var(--primary-color);
         }
         .lang-item {
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eeeeee;
+            margin-bottom: 18px;
         }
-        .lang-item:last-child {
-            margin-bottom: 0;
-            border-bottom: none;
-            padding-bottom: 0;
-        }
+        .lang-item:last-child { margin-bottom: 0; }
         .lang-item .label {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #757575;
-            display: block;
-            margin-bottom: 4px;
+            font-size: 0.8rem; font-weight: 700; color: var(--light-gray);
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .lang-item .text {
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-        .lang-ru-cy { font-family: 'Times New Roman', Times, serif; color: var(--secondary-color); font-size: 1.3rem; }
-        .lang-ru-bn { font-style: italic; color: #424242; }
-        .lang-en { font-size: 1.1rem; color: #616161; }
-        .remove-btn {
-            background-color: #ef5350; color: white; border: none;
-            padding: 5px 10px; border-radius: 4px; cursor: pointer;
-            float: right; font-size: 0.8rem;
-        }
-        #no-saved-items { text-align: center; color: #777; font-size: 1.2rem; }
+        .lang-item .text { font-size: 1.3rem; font-weight: 500; color: var(--text-color); }
+        .lang-ru-cy { font-family: 'Times New Roman', Times, serif; color: var(--secondary-color); font-size: 1.5rem; }
 
-        /* --- Controls --- */
-        .slider-controls, .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 500px;
-            margin: 20px auto;
-        }
-        .slider-controls button, .action-buttons button {
-            border: none; border-radius: 50px;
-            color: white; font-size: 1rem; cursor: pointer;
-            padding: 12px 25px;
-            transition: transform 0.2s ease;
-        }
-        .slider-controls button:hover, .action-buttons button:hover { transform: scale(1.05); }
-        .prev-btn, .next-btn { background-color: var(--next-prev-btn-color); }
-        .save-btn { background-color: var(--save-btn-color); width: 100%; }
-        #progress { font-weight: 700; color: var(--primary-color); font-size: 1.1rem; }
-        .start-button {
-            display: block; width: 200px; margin: 2rem auto; padding: 15px;
-            background-color: var(--primary-color); color: white; text-align: center;
-            border: none; border-radius: 50px; font-size: 1.2rem; font-weight: 700;
+        /* --- Buttons --- */
+        .btn {
+            border: none; border-radius: 50px; padding: 15px 30px;
+            color: white; font-size: 1.1rem; font-weight: 700;
             cursor: pointer; transition: all 0.3s ease;
+            text-decoration: none; display: inline-block;
         }
-        .start-button:hover { background-color: var(--secondary-color); transform: scale(1.05); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .btn-primary { background-color: var(--secondary-color); }
+        .btn-success { background-color: var(--success-color); width: 100%; margin-top: 20px;}
 
-        /* Desktop Layout */
-        @media (min-width: 1024px) {
-            #ad-left, #ad-right {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            #main-content {
-                max-width: 700px;
-                margin: 0 auto;
-                padding: 30px;
-            }
+        /* --- Slider Controls --- */
+        .slider-controls {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 25px;
+        }
+        .slider-controls .btn-nav {
+            background-color: var(--primary-color); padding: 12px 20px; font-size: 1rem;
+        }
+        #progress { font-weight: 700; color: var(--primary-color); font-size: 1.2rem; }
+        
+        /* --- Saved Page --- */
+        #saved-items-container {
+             width: 100%; max-width: 500px;
+             height: 100%; overflow-y: auto; padding-right: 10px;
+        }
+        #saved-items-container .conversation-card { margin-bottom: 15px; position: relative; }
+        .remove-btn {
+            position: absolute; top: 15px; right: 15px; background: #e74c3c;
+            color: white; border: none; width: 30px; height: 30px;
+            border-radius: 50%; cursor: pointer; font-weight: 700;
+        }
+
+        /* --- Footer --- */
+        .app-footer {
+            flex-shrink: 0;
+            text-align: center;
+            padding: 15px;
+            background: var(--background-color);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            border-top: 1px solid #dcdde1;
         }
     </style>
 </head>
 <body>
 
-    <div class="site-wrapper">
-        <div id="ad-top" class="ad-placeholder">Top Ad Space (970x90 / 728x90)</div>
+    <div class="app-container">
+        
+        <header class="app-header">
+            <div class="logo">রুশ বাংলা পাঠশালা</div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+        </header>
 
-        <div class="main-container">
-            <div id="ad-left" class="ad-placeholder">Left Ad Space (160x600)</div>
-            
-            <main id="main-content">
-                <nav class="navbar">
-                    <div class="navbar-content">
-                        <div class="logo">রুশ বাংলা পাঠশালা</div>
-                        <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-                    </div>
-                </nav>
-                 <ul class="nav-links" id="nav-links">
-                    <li><a href="#" data-page="home-page">হোম</a></li>
-                    <li><a href="#" data-page="saved-page">সেভ করা বাক্য</a></li>
-                    <li><a href="#" data-page="about-page">আমাদের সম্পর্কে</a></li>
-                </ul>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#" data-page="home-page">হোম</a></li>
+            <li><a href="#" data-page="saved-page">সেভ করা বাক্য</a></li>
+            <li><a href="#" data-page="about-page">আমাদের সম্পর্কে</a></li>
+        </ul>
 
-                <div id="home-page" class="page active">
-                    <h1>স্বাগতম!</h1>
-                    <p style="text-align: center;">রাশিয়া প্রবাসী বাংলাদেশিদের জন্য দৈনন্দিন রাশিয়ান কথোপকথন শেখার সহজ প্ল্যাটফর্ম। আপনার প্রয়োজনীয় বাক্য সেভ করে রাখুন এবং নিয়মিত অনুশীলন করুন।</p>
-                    <button class="start-button" id="start-learning">অনুশীলন শুরু করুন</button>
+        <main class="app-main">
+            <div id="home-page" class="page active">
+                <div>
+                    <h1>রাশিয়ান ভাষা শিখুন সহজে</h1>
+                    <p>রাশিয়া প্রবাসী বাংলাদেশিদের জন্য দৈনন্দিন কথোপকথন অনুশীলনের একটি আধুনিক প্ল্যাটফর্ম।</p>
+                    <a href="#" class="btn btn-primary" id="start-learning">অনুশীলন শুরু করুন</a>
                 </div>
+            </div>
 
-                <div id="learning-page" class="page">
-                    <h2>অনুশীলন</h2>
+            <div id="learning-page" class="page">
+                <div style="width:100%; max-width: 450px;">
                     <div id="slider-container">
                         </div>
                     <div class="slider-controls">
-                        <button class="prev-btn" id="prev-btn">আগেরটি</button>
+                        <a href="#" class="btn btn-nav" id="prev-btn">আগেরটি</a>
                         <span id="progress"></span>
-                        <button class="next-btn" id="next-btn">পরেরটি</button>
+                        <a href="#" class="btn btn-nav" id="next-btn">পরেরটি</a>
                     </div>
-                    <div class="action-buttons">
-                        <button class="save-btn" id="save-btn">এই বাক্যটি সেভ করুন</button>
+                    <a href="#" class="btn btn-success" id="save-btn">সেভ করুন</a>
+                </div>
+            </div>
+
+            <div id="saved-page" class="page">
+                <div id="saved-items-container">
                     </div>
-                </div>
+            </div>
 
-                <div id="saved-page" class="page">
-                    <h2>আপনার সেভ করা বাক্য</h2>
-                    <div id="saved-items-container"></div>
-                    <p id="no-saved-items">আপনি এখনও কোনো বাক্য সেভ করেননি।</p>
+            <div id="about-page" class="page">
+                 <div>
+                    <h1>আমাদের সম্পর্কে</h1>
+                    <p>আমাদের লক্ষ্য, ভাষার ভিন্নতার কারণে রাশিয়াতে কোনো বাংলাদেশি যেন সমস্যায় না পড়েন।</p>
                 </div>
-                
-                <div id="about-page" class="page">
-                    <h2>আমাদের সম্পর্কে</h2>
-                    <p>আমরা রাশিয়া প্রবাসী বাংলাদেশিদের দৈনন্দিন যোগাযোগের সুবিধার্থে এই প্ল্যাটফর্মটি তৈরি করেছি। আমাদের লক্ষ্য হলো, ভাষার ভিন্নতার কারণে যেন কাউকে কোনো সমস্যায় পড়তে না হয়।</p>
-                </div>
-            </main>
-            
-            <div id="ad-right" class="ad-placeholder">Right Ad Space (160x600)</div>
-        </div>
+            </div>
+        </main>
+        
+        <footer class="app-footer">
+            &copy; 2025 রুশ বাংলা পাঠশালা। সর্বস্বত্ব সংরক্ষিত।
+        </footer>
 
-        <div id="ad-bottom" class="ad-placeholder">Bottom Ad Space (970x90 / 728x90)</div>
     </div>
 
 <script>
@@ -263,14 +237,12 @@ const conversations = [
     { bn: "দুঃখিত।", ru_cy: "Извините.", ru_bn: "ইজভিনিতে।", en: "Sorry / Excuse me." },
     { bn: "এটার দাম কত?", ru_cy: "Сколько это стоит?", ru_bn: "স্কোলকা এতা স্তোয়িত?", en: "How much is this?" },
     { bn: "আমি বুঝতে পারছি না।", ru_cy: "Я не понимаю.", ru_bn: "ইয়া নি পানিমাইউ।", en: "I don't understand." },
-    { bn: "আমি একজন ছাত্র।", ru_cy: "Я студент.", ru_bn: "ইয়া স্তুদেন্ত।", en: "I am a student (male)." },
-    { bn: "আমি একজন ছাত্রী।", ru_cy: "Я студентка.", ru_bn: "ইয়া স্তুদেন্তকা।", en: "I am a student (female)." },
     { bn: "শৌচাগারটি কোথায়?", ru_cy: "Где туалет?", ru_bn: "গদে তুয়ালের্ট?", en: "Where is the toilet?" },
     { bn: "বিদায়।", ru_cy: "До свидания.", ru_bn: "দা স্বিদানিয়া।", en: "Goodbye." }
 ];
 
 let currentIndex = 0;
-let savedItems = JSON.parse(localStorage.getItem('savedRussianConvos')) || [];
+let savedItems = JSON.parse(localStorage.getItem('savedRussianConvosV2')) || [];
 
 document.addEventListener('DOMContentLoaded', () => {
     const pages = document.querySelectorAll('.page');
@@ -278,100 +250,84 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menu-toggle');
     const navLinksContainer = document.getElementById('nav-links');
 
-    function showPage(pageId) {
+    const showPage = (pageId) => {
         pages.forEach(page => page.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
         navLinksContainer.classList.remove('active');
-    }
+        if (pageId === 'saved-page') renderSavedItems();
+    };
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const pageId = e.target.getAttribute('data-page');
-            if (pageId === 'saved-page') renderSavedItems();
-            showPage(pageId);
+            showPage(e.target.getAttribute('data-page'));
         });
     });
-    
-    menuToggle.addEventListener('click', () => navLinksContainer.classList.toggle('active'));
 
-    document.getElementById('start-learning').addEventListener('click', () => {
+    menuToggle.addEventListener('click', () => navLinksContainer.classList.toggle('active'));
+    document.getElementById('start-learning').addEventListener('click', (e) => {
+        e.preventDefault();
         showPage('learning-page');
         renderSlider();
     });
-    
-    document.getElementById('prev-btn').addEventListener('click', () => {
+    document.getElementById('prev-btn').addEventListener('click', (e) => {
+        e.preventDefault();
         currentIndex = (currentIndex > 0) ? currentIndex - 1 : conversations.length - 1;
         renderSlider();
     });
-
-    document.getElementById('next-btn').addEventListener('click', () => {
+    document.getElementById('next-btn').addEventListener('click', (e) => {
+        e.preventDefault();
         currentIndex = (currentIndex < conversations.length - 1) ? currentIndex + 1 : 0;
         renderSlider();
     });
-
-    document.getElementById('save-btn').addEventListener('click', () => {
+    document.getElementById('save-btn').addEventListener('click', (e) => {
+        e.preventDefault();
         const currentItem = conversations[currentIndex];
         if (!savedItems.some(item => item.bn === currentItem.bn)) {
             savedItems.push(currentItem);
-            localStorage.setItem('savedRussianConvos', JSON.stringify(savedItems));
+            localStorage.setItem('savedRussianConvosV2', JSON.stringify(savedItems));
             alert('বাক্যটি সেভ করা হয়েছে!');
         } else {
             alert('এই বাক্যটি ইতিমধ্যে সেভ করা আছে।');
         }
     });
 
-    function createCardHTML(item, index = -1) {
-        const removeButton = index !== -1 ? `<button class="remove-btn" onclick="removeSavedItem(${index})">মুছুন</button>` : '';
+    const createCardHTML = (item, index = -1) => {
+        const removeButton = index !== -1 ? `<button class="remove-btn" onclick="removeSavedItem(${index})">X</button>` : '';
         return `
             <div class="conversation-card">
                 ${removeButton}
-                <div class="lang-item">
-                    <span class="label">বাংলা (Bengali)</span>
-                    <p class="text lang-bn">${item.bn}</p>
-                </div>
-                <div class="lang-item">
-                    <span class="label">রাশিয়ান (Russian)</span>
-                    <p class="text lang-ru-cy">${item.ru_cy}</p>
-                </div>
-                <div class="lang-item">
-                    <span class="label">বাংলা উচ্চারণ (Pronunciation)</span>
-                    <p class="text lang-ru-bn">${item.ru_bn}</p>
-                </div>
-                <div class="lang-item">
-                    <span class="label">ইংরেজি (English)</span>
-                    <p class="text lang-en">${item.en}</p>
-                </div>
+                <div class="lang-item"><span class="label">বাংলা</span><p class="text">${item.bn}</p></div>
+                <div class="lang-item"><span class="label">রাশিয়ান</span><p class="text lang-ru-cy">${item.ru_cy}</p></div>
+                <div class="lang-item"><span class="label">উচ্চারণ</span><p class="text">${item.ru_bn}</p></div>
+                <div class="lang-item"><span class="label">ENGLISH</span><p class="text">${item.en}</p></div>
             </div>`;
-    }
+    };
 
-    function renderSlider() {
+    const renderSlider = () => {
         const item = conversations[currentIndex];
         document.getElementById('slider-container').innerHTML = createCardHTML(item);
-        document.getElementById('progress').innerText = `${currentIndex + 1} / ${conversations.length}`;
-    }
+        document.getElementById('progress').innerText = `${currentIndex + 1}/${conversations.length}`;
+    };
 
-    function renderSavedItems() {
+    const renderSavedItems = () => {
         const container = document.getElementById('saved-items-container');
-        const noItemsMsg = document.getElementById('no-saved-items');
-        container.innerHTML = '';
-        
+        container.innerHTML = '<h2>আপনার সেভ করা বাক্য</h2>';
         if (savedItems.length === 0) {
-            noItemsMsg.style.display = 'block';
+            container.innerHTML += '<p>আপনি এখনও কোনো বাক্য সেভ করেননি।</p>';
         } else {
-            noItemsMsg.style.display = 'none';
             savedItems.forEach((item, index) => {
                 container.innerHTML += createCardHTML(item, index);
             });
         }
-    }
-    
-    window.removeSavedItem = function(index) {
+    };
+
+    window.removeSavedItem = (index) => {
         savedItems.splice(index, 1);
-        localStorage.setItem('savedRussianConvos', JSON.stringify(savedItems));
+        localStorage.setItem('savedRussianConvosV2', JSON.stringify(savedItems));
         renderSavedItems();
-    }
-    
+    };
+
     showPage('home-page');
 });
 </script>
