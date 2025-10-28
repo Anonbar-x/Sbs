@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডাউনলোড ফাইল</title>
+    <style>
+        :root {
+            --bg-color: #0e1621;
+            --item-bg-color: #17212b;
+            --primary-color: #3390ec;
+            --text-color: #f1f1f1;
+            --secondary-text-color: #aaa;
+            --border-color: #2a3a4c;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* স্ক্রলবার হাইড */
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 15px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--item-bg-color);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto; /* যদি কন্টেন্ট বেশি হয় তবে শুধু এই অংশ স্ক্রল হবে */
+        }
+        
+        /* সেকশনগুলো ডিফল্টভাবে হাইড থাকবে */
+        .download-section {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .download-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .download-item {
+            background-color: var(--item-bg-color);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .file-name {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .download-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .download-btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--item-bg-color);
+            font-size: 0.9em;
+            color: var(--secondary-text-color);
+        }
+        
+        /* --- টাইমার মোডাল --- */
+        #timer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none; /* ডিফল্টরূপে লুকানো */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: var(--item-bg-color);
+            padding: 30px 40px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            width: 90%;
+            max-width: 350px;
+        }
+        
+        #ad-placeholder {
+            background-color: #0e1621;
+            border: 1px dashed var(--border-color);
+            color: var(--secondary-text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 120px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            border-radius: 8px;
+        }
+
+        #countdown {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="timer-modal">
+        <div class="modal-content">
+            <div id="ad-placeholder">(বিজ্ঞাপনের স্থান)</div>
+            <h3>ডাউনলোড প্রস্তুত হচ্ছে...</h3>
+            <span id="countdown">10</span>
+            <button id="final-download-btn" class="download-btn" style="width: 100%; margin-top: 15px;" disabled>
+                ডাউনলোড করুন
+            </button>
+        </div>
+    </div>
+
+    <header>
+        <h1 id="page-title">ফাইলসমূহ</h1>
+    </header>
+
+    <main class="main-content">
+        
+        <div id="fbLite" class="download-section">
+            <div class="download-list">
+                <div class="download-item">
+                    <span class="file-name">Facebook Lite 2</span>
+                    <button class="download-btn" data-link="path/to/fb-lite-2.apk">ডাউনলোড</button>
+                </div>
+                <div class="download-item">
+                    <span class="file-name">Facebook Lite 3</span>
+                    <button class="download-btn" data-link="path/to/fb-lite-3.apk">ডাউনলোড</button>
+                </div>
+                <div class="download-item">
+                    <span class="file-name">Facebook Lite 11</span>
+                    <button class="download-btn" data-link="path/to/fb-lite-11.apk">ডাউনলোড</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="messenger" class="download-section">
+            <div class="download-list">
+                <div class="download-item">
+                    <span class="file-name">Messenger 2</span>
+                    <button class="download-btn" data-link="path/to/messenger-2.apk">ডাউনলোড</button>
+                </div>
+                <div class="download-item">
+                    <span class="file-name">Messenger 3</span>
+                    <button class="download-btn" data-link="path/to/messenger-3.apk">ডাউনলোড</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>© 2025 সর্বস্বত্ব সংরক্ষিত। (ডেমো)</p>
+    </footer>
+
+    <script>
+        const timerModal = document.getElementById('timer-modal');
+        const countdownSpan = document.getElementById('countdown');
+        const finalDownloadBtn = document.getElementById('final-download-btn');
+        let actualDownloadLink = '';
+        let timerInterval;
+
+        // --- পৃষ্ঠা লোড হলে সেকশন দেখানোর কোড ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const section = params.get('section'); // URL থেকে 'section' এর মান নিবে
+            
+            if (section === 'fbLite') {
+                document.getElementById('fbLite').style.display = 'block';
+                document.getElementById('page-title').textContent = 'Facebook Lite (2-11)';
+            } else if (section === 'messenger') {
+                document.getElementById('messenger').style.display = 'block';
+                document.getElementById('page-title').textContent = 'Messenger (2-3)';
+            } else {
+                // যদি কোনো সেকশন না পায়
+                document.querySelector('.main-content').innerHTML = '<p>কোনো সেকশন নির্বাচন করা হয়নি।</p>';
+            }
+            
+            // সব ডাউনলোড বাটনে ইভেন্ট যোগ করা
+            addClickListeners();
+        });
+
+        // --- টাইমার ও ডাউনলোড লজিক ---
+        function addClickListeners() {
+            const downloadButtons = document.querySelectorAll('.download-btn');
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    actualDownloadLink = this.dataset.link;
+                    
+                    // মোডাল দেখান ও টাইমার শুরু করুন
+                    timerModal.style.display = 'flex';
+                    startTimer(10); // ১০ সেকেন্ড টাইমার
+                });
+            });
+        }
+
+        function startTimer(duration) {
+            let timer = duration;
+            countdownSpan.textContent = timer;
+            
+            // বাটন ডিজেবল রাখা
+            finalDownloadBtn.disabled = true;
+            finalDownloadBtn.textContent = `অপেক্ষা করুন (${timer})`;
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+
+            timerInterval = setInterval(() => {
+                timer--;
+                countdownSpan.textContent = timer;
+                finalDownloadBtn.textContent = `অপেক্ষা করুন (${timer})`;
+
+                if (timer <= 0) {
+                    clearInterval(timerInterval);
+                    countdownSpan.textContent = '✅';
+                    finalDownloadBtn.disabled = false;
+                    finalDownloadBtn.textContent = 'এখন ডাউনলোড করুন';
+                }
+            }, 1000);
+        }
+
+        // আসল ডাউনলোড বাটনে ক্লিক করলে
+        finalDownloadBtn.addEventListener('click', () => {
+            if (!finalDownloadBtn.disabled) {
+                timerModal.style.display = 'none'; // মোডাল হাইড করুন
+                window.location.href = actualDownloadLink; // ডাউনলোড শুরু করুন
+                console.log('ডাউনলোড শুরু হচ্ছে:', actualDownloadLink);
+            }
+        });
+        
+        // মোডালের বাইরে ক্লিক করলে বন্ধ হয়ে যাওয়া (ঐচ্ছিক)
+        timerModal.addEventListener('click', function(event) {
+            if (event.target === timerModal) {
+                timerModal.style.display = 'none';
+                clearInterval(timerInterval);
+            }
+        });
+
+    </script>
+</body>
+</html>
