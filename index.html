@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ডার্ক মোড ডাউনলোড পেইজ</title>
+    <title>প্রধান ডাউনলোড পৃষ্ঠা</title>
     <style>
-        /* --- বেসিক স্টাইল --- */
         :root {
             --bg-color: #0e1621;
             --item-bg-color: #17212b;
@@ -15,294 +14,107 @@
             --border-color: #2a3a4c;
         }
 
-        body {
+        html, body {
+            height: 100%;
+            margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* স্ক্রলবার হাইড করার জন্য */
         }
 
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        /* --- হেডার --- */
         header {
             text-align: center;
-            padding: 20px 0;
+            padding: 20px 15px;
             border-bottom: 1px solid var(--border-color);
+            background-color: var(--item-bg-color);
         }
 
         header h1 {
             margin: 0;
-            color: var(--text-color);
+            font-size: 1.5em;
         }
 
-        header p {
-            color: var(--secondary-text-color);
-            font-size: 1.1em;
-        }
-
-        /* --- বিজ্ঞাপন প্লেসহোল্ডার --- */
-        .ad-placeholder {
-            background-color: var(--item-bg-color);
-            border: 1px dashed var(--border-color);
-            color: var(--secondary-text-color);
+        .main-content {
+            flex-grow: 1; /* বাকি সবটুকু জায়গা নিবে */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 90px;
-            margin: 20px 0;
-            border-radius: 8px;
-            font-size: 0.9em;
+            padding: 20px;
         }
 
-        /* --- ডাউনলোড লিস্ট --- */
-        .download-list {
+        .selection-container {
+            width: 100%;
+            max-width: 400px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
-        .download-item {
+        .selection-card {
             background-color: var(--item-bg-color);
-            border-radius: 10px;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease;
-        }
-
-        .download-item:hover {
-            transform: translateY(-3px);
-        }
-        
-        .file-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .file-icon {
-            font-size: 2em;
-            color: var(--primary-color);
-        }
-
-        .file-details .file-name {
-            font-size: 1.2em;
-            font-weight: 600;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
             color: var(--text-color);
         }
 
-        .file-details .file-version {
+        .selection-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .selection-card h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-size: 1.4em;
+        }
+
+        .selection-card p {
+            margin: 0;
+            color: var(--secondary-text-color);
+            font-size: 1em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--item-bg-color);
             font-size: 0.9em;
             color: var(--secondary-text-color);
-        }
-
-        .download-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .download-btn:hover {
-            background-color: #2a7ac0;
-        }
-
-        /* --- টাইমার মোডাল --- */
-        #timer-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none; /* ডিফল্টরূপে লুকানো থাকবে */
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background-color: var(--item-bg-color);
-            padding: 30px 40px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content h3 {
-            margin-top: 0;
-            color: var(--text-color);
-        }
-
-        #countdown {
-            font-size: 3em;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin: 10px 0;
-            display: block;
-        }
-
-        .modal-content p {
-            color: var(--secondary-text-color);
-            margin-bottom: 20px;
-        }
-
-        /* --- রেসপন্সিভ ডিজাইন --- */
-        @media (max-width: 600px) {
-            .download-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .download-btn {
-                width: 100%;
-                text-align: center;
-                margin-top: 15px;
-            }
-            
-            .modal-content {
-                width: 85%;
-            }
         }
     </style>
 </head>
 <body>
 
-    <div id="timer-modal">
-        <div class="modal-content">
-            <h3>আপনার ডাউনলোড প্রস্তুত হচ্ছে...</h3>
-            <span id="countdown">10</span>
-            <p>অনুগ্রহ করে অপেক্ষা করুন</p>
-            
-            <div class="ad-placeholder" style="height: 120px;">
-                (এখানে বিজ্ঞাপন দিন)
-            </div>
+    <header>
+        <h1>ডাউনলোড সেন্টার</h1>
+    </header>
+
+    <main class="main-content">
+        <div class="selection-container">
+            <a href="download.html?section=fbLite" class="selection-card">
+                <h2>Facebook Lite (2-11)</h2>
+                <p>ডাউনলোড করতে এখানে ক্লিক করুন (মোট ১০টি ফাইল)</p>
+            </a>
+
+            <a href="download.html?section=messenger" class="selection-card">
+                <h2>Messenger (2-3)</h2>
+                <p>ডাউনলোড করতে এখানে ক্লিক করুন (মোট ২টি ফাইল)</p>
+            </a>
         </div>
-    </div>
+    </main>
 
-    <div class="container">
-        <header>
-            <h1>আমার ফাইলসমূহ</h1>
-            <p>নিচের তালিকা থেকে আপনার প্রয়োজনীয় ফাইল ডাউনলোড করুন।</p>
-        </header>
-
-        <div class="ad-placeholder">(এখানে বিজ্ঞাপন দিন - ডেমো)</div>
-
-        <main>
-            <div class="download-list">
-                <div class="download-item">
-                    <div class="file-info">
-                        <span class="file-icon">📦</span>
-                        <div class="file-details">
-                            <span class="file-name">আমার অ্যাপ সংস্করণ ১.০</span>
-                            <span class="file-version">ফাইল সাইজ: ১৫ মেগাবাইট</span>
-                        </div>
-                    </div>
-                    <button class="download-btn" data-link="path/to/your/file-1.zip">ডাউনলোড</button>
-                </div>
-
-                <div class="download-item">
-                    <div class="file-info">
-                        <span class="file-icon">📄</span>
-                        <div class="file-details">
-                            <span class="file-name">প্রজেক্ট ডকুমেন্ট</span>
-                            <span class="file-version">ফাইল সাইজ: ২ মেগাবাইট</span>
-                        </div>
-                    </div>
-                    <button class="download-btn" data-link="path/to/your/document.pdf">ডাউনলোড</button>
-                </div>
-                
-                <div class="download-item">
-                    <div class="file-info">
-                        <span class="file-icon">🎨</span>
-                        <div class="file-details">
-                            <span class="file-name">ডিজাইন অ্যাসেট</span>
-                            <span class="file-version">ফাইল সাইজ: ৫০ মেগাবাইট</span>
-                        </div>
-                    </div>
-                    <button class="download-btn" data-link="path/to/your/assets.rar">ডাউনলোড</button>
-                </div>
-                
-                </div>
-        </main>
-
-        <div class="ad-placeholder">(এখানে বিজ্ঞাপন দিন - ডেমো)</div>
-
-    </div>
-
-    <script>
-        const downloadButtons = document.querySelectorAll('.download-btn');
-        const timerModal = document.getElementById('timer-modal');
-        const countdownSpan = document.getElementById('countdown');
-        let actualDownloadLink = '';
-        let timerInterval;
-
-        downloadButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault(); // লিঙ্কটি সরাসরি খুলবে না
-                
-                // আসল ডাউনলোড লিঙ্কটি সংরক্ষণ করুন
-                actualDownloadLink = this.dataset.link;
-                
-                // মোডাল দেখান
-                timerModal.style.display = 'flex';
-                
-                // টাইমার শুরু করুন
-                startTimer(10); // ১০ সেকেন্ডের টাইমার
-            });
-        });
-
-        function startTimer(duration) {
-            let timer = duration;
-            countdownSpan.textContent = timer;
-
-            // যদি আগে কোনো টাইমার চলে থাকে তবে তা বন্ধ করুন
-            if (timerInterval) {
-                clearInterval(timerInterval);
-            }
-
-            timerInterval = setInterval(() => {
-                timer--;
-                countdownSpan.textContent = timer;
-
-                if (timer <= 0) {
-                    clearInterval(timerInterval);
-                    triggerDownload();
-                }
-            }, 1000); // প্রতি সেকেন্ডে
-        }
-
-        function triggerDownload() {
-            // মোডাল লুকান
-            timerModal.style.display = 'none';
-            
-            // বিজ্ঞাপন দেখানোর পর স্বয়ংক্রিয় ডাউনলোড শুরু করুন
-            // এখানে আপনি বিজ্ঞাপন নেটওয়ার্কের পপ-আপ বা অন্য কোড ট্রিগার করতে পারেন
-            console.log("এখন বিজ্ঞাপন দেখানোর কথা...");
-            
-            // বিজ্ঞাপন দেখানোর পর (বা একটি ছোট ডিলে দিয়ে) ডাউনলোড শুরু করুন
-            setTimeout(() => {
-                // এই কোডটি ফাইল ডাউনলোড শুরু করবে
-                window.location.href = actualDownloadLink;
-                console.log('ডাউনলোড শুরু হচ্ছে:', actualDownloadLink);
-            }, 500); // আধা সেকেন্ড পর ডাউনলোড শুরু হবে (বিজ্ঞাপন লোডের সময়)
-        }
-    </script>
+    <footer>
+        <p>© 2025 সর্বস্বত্ব সংরক্ষিত। (ডেমো)</p>
+    </footer>
 
 </body>
 </html>
