@@ -1,61 +1,308 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>বাংলা থেকে রাশিয়ান ভাষা শিখুন</title>
-  <!-- Google Fonts for Bengali and Latin/Cyrillic scripts -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডার্ক মোড ডাউনলোড পেইজ</title>
+    <style>
+        /* --- বেসিক স্টাইল --- */
+        :root {
+            --bg-color: #0e1621;
+            --item-bg-color: #17212b;
+            --primary-color: #3390ec;
+            --text-color: #f1f1f1;
+            --secondary-text-color: #aaa;
+            --border-color: #2a3a4c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* --- হেডার --- */
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        header p {
+            color: var(--secondary-text-color);
+            font-size: 1.1em;
+        }
+
+        /* --- বিজ্ঞাপন প্লেসহোল্ডার --- */
+        .ad-placeholder {
+            background-color: var(--item-bg-color);
+            border: 1px dashed var(--border-color);
+            color: var(--secondary-text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        /* --- ডাউনলোড লিস্ট --- */
+        .download-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .download-item {
+            background-color: var(--item-bg-color);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .download-item:hover {
+            transform: translateY(-3px);
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .file-icon {
+            font-size: 2em;
+            color: var(--primary-color);
+        }
+
+        .file-details .file-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .file-details .file-version {
+            font-size: 0.9em;
+            color: var(--secondary-text-color);
+        }
+
+        .download-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .download-btn:hover {
+            background-color: #2a7ac0;
+        }
+
+        /* --- টাইমার মোডাল --- */
+        #timer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none; /* ডিফল্টরূপে লুকানো থাকবে */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: var(--item-bg-color);
+            padding: 30px 40px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            color: var(--text-color);
+        }
+
+        #countdown {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+            display: block;
+        }
+
+        .modal-content p {
+            color: var(--secondary-text-color);
+            margin-bottom: 20px;
+        }
+
+        /* --- রেসপন্সিভ ডিজাইন --- */
+        @media (max-width: 600px) {
+            .download-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .download-btn {
+                width: 100%;
+                text-align: center;
+                margin-top: 15px;
+            }
+            
+            .modal-content {
+                width: 85%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Header with site title and navigation -->
-  <header>
-    <h1>বাংলা থেকে রাশিয়ান</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">হোম</a></li>
-        <li><a href="lessons.html">লেসনস</a></li>
-        <li><a href="practice.html">প্র্যাকটিস</a></li>
-        <li><a href="about.html">সম্বন্ধে</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <!-- Hero section introducing the site -->
-  <section class="hero">
-    <h2>রাশিয়ান ভাষা শিখুন অত্যন্ত সহজে!</h2>
-    <p>আমাদের প্ল্যাটফর্মে আপনি পুরোপুরি বাংলা ভাষায় রাশিয়ান ভাষা শিখতে পারবেন – বেসিক থেকে এডভান্স পর্যন্ত। পাঠগুলি ধাপে ধাপে সাজানো হয়েছে, যাতে যে কেউ শিখতে পারে।</p>
-    <a class="cta" href="lessons.html">শুরু করুন</a>
-  </section>
-
-  <!-- Features section highlighting key benefits -->
-  <section class="section">
-    <h2 style="text-align:center;">আমাদের বৈশিষ্ট্য</h2>
-    <div class="features">
-      <div class="feature-card">
-        <h3>বাংলা নির্দেশনা</h3>
-        <p>সব লেসন ও ব্যাখ্যা বাংলা ভাষায়, যাতে আপনি সহজে বুঝতে পারেন।</p>
-      </div>
-      <div class="feature-card">
-        <h3>ইন্টারেক্টিভ প্র্যাকটিস</h3>
-        <p>কুইজ এবং প্র্যাকটিস সেশনের মাধ্যমে নিজেকে পরীক্ষা করতে পারবেন।</p>
-      </div>
-      <div class="feature-card">
-        <h3>অ্যাড সাপোর্ট</h3>
-        <p>ওয়েবসাইটে বিজ্ঞাপন থেকে আয় করার সুযোগ রয়েছে। আপনার জন্য এড প্লেসহোল্ডার প্রস্তুত করা হয়েছে।</p>
-      </div>
+    <div id="timer-modal">
+        <div class="modal-content">
+            <h3>আপনার ডাউনলোড প্রস্তুত হচ্ছে...</h3>
+            <span id="countdown">10</span>
+            <p>অনুগ্রহ করে অপেক্ষা করুন</p>
+            
+            <div class="ad-placeholder" style="height: 120px;">
+                (এখানে বিজ্ঞাপন দিন)
+            </div>
+        </div>
     </div>
-  </section>
 
-  <!-- Advertisement placeholder -->
-  <section class="section">
-    <div class="ad-placeholder">ADVERTISEMENT</div>
-  </section>
+    <div class="container">
+        <header>
+            <h1>আমার ফাইলসমূহ</h1>
+            <p>নিচের তালিকা থেকে আপনার প্রয়োজনীয় ফাইল ডাউনলোড করুন।</p>
+        </header>
 
-  <!-- Footer with copyright -->
-  <footer>
-    <p>&copy; ২০২৫ বাংলা থেকে রাশিয়ান। সব অধিকার সংরক্ষিত।</p>
-  </footer>
+        <div class="ad-placeholder">(এখানে বিজ্ঞাপন দিন - ডেমো)</div>
+
+        <main>
+            <div class="download-list">
+                <div class="download-item">
+                    <div class="file-info">
+                        <span class="file-icon">📦</span>
+                        <div class="file-details">
+                            <span class="file-name">আমার অ্যাপ সংস্করণ ১.০</span>
+                            <span class="file-version">ফাইল সাইজ: ১৫ মেগাবাইট</span>
+                        </div>
+                    </div>
+                    <button class="download-btn" data-link="path/to/your/file-1.zip">ডাউনলোড</button>
+                </div>
+
+                <div class="download-item">
+                    <div class="file-info">
+                        <span class="file-icon">📄</span>
+                        <div class="file-details">
+                            <span class="file-name">প্রজেক্ট ডকুমেন্ট</span>
+                            <span class="file-version">ফাইল সাইজ: ২ মেগাবাইট</span>
+                        </div>
+                    </div>
+                    <button class="download-btn" data-link="path/to/your/document.pdf">ডাউনলোড</button>
+                </div>
+                
+                <div class="download-item">
+                    <div class="file-info">
+                        <span class="file-icon">🎨</span>
+                        <div class="file-details">
+                            <span class="file-name">ডিজাইন অ্যাসেট</span>
+                            <span class="file-version">ফাইল সাইজ: ৫০ মেগাবাইট</span>
+                        </div>
+                    </div>
+                    <button class="download-btn" data-link="path/to/your/assets.rar">ডাউনলোড</button>
+                </div>
+                
+                </div>
+        </main>
+
+        <div class="ad-placeholder">(এখানে বিজ্ঞাপন দিন - ডেমো)</div>
+
+    </div>
+
+    <script>
+        const downloadButtons = document.querySelectorAll('.download-btn');
+        const timerModal = document.getElementById('timer-modal');
+        const countdownSpan = document.getElementById('countdown');
+        let actualDownloadLink = '';
+        let timerInterval;
+
+        downloadButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // লিঙ্কটি সরাসরি খুলবে না
+                
+                // আসল ডাউনলোড লিঙ্কটি সংরক্ষণ করুন
+                actualDownloadLink = this.dataset.link;
+                
+                // মোডাল দেখান
+                timerModal.style.display = 'flex';
+                
+                // টাইমার শুরু করুন
+                startTimer(10); // ১০ সেকেন্ডের টাইমার
+            });
+        });
+
+        function startTimer(duration) {
+            let timer = duration;
+            countdownSpan.textContent = timer;
+
+            // যদি আগে কোনো টাইমার চলে থাকে তবে তা বন্ধ করুন
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+
+            timerInterval = setInterval(() => {
+                timer--;
+                countdownSpan.textContent = timer;
+
+                if (timer <= 0) {
+                    clearInterval(timerInterval);
+                    triggerDownload();
+                }
+            }, 1000); // প্রতি সেকেন্ডে
+        }
+
+        function triggerDownload() {
+            // মোডাল লুকান
+            timerModal.style.display = 'none';
+            
+            // বিজ্ঞাপন দেখানোর পর স্বয়ংক্রিয় ডাউনলোড শুরু করুন
+            // এখানে আপনি বিজ্ঞাপন নেটওয়ার্কের পপ-আপ বা অন্য কোড ট্রিগার করতে পারেন
+            console.log("এখন বিজ্ঞাপন দেখানোর কথা...");
+            
+            // বিজ্ঞাপন দেখানোর পর (বা একটি ছোট ডিলে দিয়ে) ডাউনলোড শুরু করুন
+            setTimeout(() => {
+                // এই কোডটি ফাইল ডাউনলোড শুরু করবে
+                window.location.href = actualDownloadLink;
+                console.log('ডাউনলোড শুরু হচ্ছে:', actualDownloadLink);
+            }, 500); // আধা সেকেন্ড পর ডাউনলোড শুরু হবে (বিজ্ঞাপন লোডের সময়)
+        }
+    </script>
+
 </body>
 </html>
